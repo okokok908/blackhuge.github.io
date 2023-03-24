@@ -63,7 +63,7 @@
 
 
 <!-- Variable -->
-<script>window.ASYNC_CONFIG = {"hostname":"example.com","author":"Tc","root":"/","typed_text":null,"theme_version":"2.0.4","theme":{"switch":true,"default":"style-light"},"favicon":{"logo":"/img/favicon.svg","icon16":"/img/favicon.svg","icon32":"/img/favicon.svg","appleTouchIcon":null,"webmanifest":null,"visibilitychange":false,"hidden":"/failure.ico","showText":"(/≧▽≦/)咦！又好了！","hideText":"(●—●)喔哟，崩溃啦！"},"i18n":{"placeholder":"搜索...","empty":"找不到您查询的内容: ${query}","hits":"找到 ${hits} 条结果","hits_time":"找到 ${hits} 条结果（用时 ${time} 毫秒）","author":"本文作者：","copyright_link":"本文链接：","copyright_license_title":"版权声明：","copyright_license_content":"本博客所有文章除特别声明外，均默认采用 undefined 许可协议。","copy_success":"复制成功","copy_failure":"复制失败","open_read_mode":"进入阅读模式","exit_read_mode":"退出阅读模式","notice_outdate_message":"距离上次更新已经 undefined 天了, 文章内容可能已经过时。","just":"刚刚","min":"分钟前","hour":"小时前","day":"天前","month":"个月前"},"swup":false,"plugin":{"flickr_justified_gallery":"https://unpkg.com/flickr-justified-gallery@latest/dist/fjGallery.min.js"},"icons":{"sun":"far fa-sun","moon":"far fa-moon","play":"fas fa-play","email":"far fa-envelope","next":"fas fa-arrow-right","calendar":"far fa-calendar-alt","clock":"far fa-clock","user":"far fa-user","back_top":"fas fa-arrow-up","close":"fas fa-times","search":"fas fa-search","reward":"fas fa-hand-holding-usd","user_tag":"fas fa-user-alt","toc_tag":"fas fa-th-list","read":"fas fa-book-reader","arrows":"fas fa-arrows-alt-h","double_arrows":"fas fa-angle-double-down","copy":"fas fa-copy"},"icontype":"font","highlight":{"plugin":"highlighjs","theme":true,"copy":true,"lang":true,"title":"default","height_limit":false}};</script>
+<script>window.ASYNC_CONFIG = {"hostname":"example.com","author":"Tc","root":"/","typed_text":null,"theme_version":"2.0.4","theme":{"switch":true,"default":"style-light"},"favicon":{"logo":"/img/favicon.svg","icon16":"/img/favicon.svg","icon32":"/img/favicon.svg","appleTouchIcon":null,"webmanifest":null,"visibilitychange":false,"hidden":"/failure.ico","showText":"(/≧▽≦/)咦！又好了！","hideText":"(●—●)喔哟，崩溃啦！"},"i18n":{"placeholder":"搜索...","empty":"找不到您查询的内容: ${query}","hits":"找到 ${hits} 条结果","hits_time":"找到 ${hits} 条结果（用时 ${time} 毫秒）","author":"本文作者：","copyright_link":"本文链接：","copyright_license_title":"版权声明：","copyright_license_content":"本博客所有文章除特别声明外，均默认采用 undefined 许可协议。","copy_success":"复制成功","copy_failure":"复制失败","open_read_mode":"进入阅读模式","exit_read_mode":"退出阅读模式","notice_outdate_message":"距离上次更新已经 undefined 天了, 文章内容可能已经过时。","just":"刚刚","min":"分钟前","hour":"小时前","day":"天前","month":"个月前"},"swup":false,"plugin":{"flickr_justified_gallery":"https://unpkg.com/flickr-justified-gallery@latest/dist/fjGallery.min.js"},"icons":{"sun":"far fa-sun","moon":"far fa-moon","play":"fas fa-play","email":"far fa-envelope","next":"fas fa-arrow-right","calendar":"far fa-calendar-alt","clock":"far fa-clock","user":"far fa-user","back_top":"fas fa-arrow-up","close":"fas fa-times","search":"fas fa-search","reward":"fas fa-hand-holding-usd","user_tag":"fas fa-user-alt","toc_tag":"fas fa-th-list","read":"fas fa-book-reader","arrows":"fas fa-arrows-alt-h","double_arrows":"fas fa-angle-double-down","copy":"fas fa-copy"},"icontype":"font","highlight":{"plugin":"highlighjs","theme":true,"copy":true,"lang":true,"title":"default","height_limit":false},"search":{"enable":true,"type":"local","href":"https://www.baidu.com/s?wd=site:","domain":null}};</script>
 <script id="async-page-config">window.PAGE_CONFIG = {"isPost":true,"isHome":false,"postUpdate":"2023-03-24 11:42:41"};</script>
 
 <!-- Theme mode css -->
@@ -196,6 +196,12 @@
     <!-- mode switcher place end -->
 
 			
+    
+    <div id="trm-search-btn" class="trm-search-btn">
+        <i class="iconfont fas fa-search"></i>
+    </div>
+     
+
 		</div>
 		<div class="trm-menu-btn">
 			<span></span>
@@ -272,7 +278,17 @@
 <div class="trm-main-card-frame trm-sidebar">
     <div class="trm-main-card" data-scroll data-scroll-repeat data-scroll-sticky data-scroll-target=".locomotive-scroll__sticky-target" data-scroll-offset="60"> 
     
-        <!-- card header -->
+        <div class="trm-user-tabs" id="sidebar-tabs">
+           <div class="trm-tabs-nav trm-mb-40" id="trm-tabs-nav">
+                <div data-to="tabs-user" class="trm-tabs-nav-item">
+                    <i class="iconfont fas fa-user-alt"></i>
+                </div>
+                <div data-to="tabs-toc" class="trm-tabs-nav-item active">
+                    <i class="iconfont fas fa-th-list"></i>
+                </div>
+           </div>
+            <div name="tabs-user" class="trm-tabs-item">
+                <!-- card header -->
 <div class="trm-mc-header">
     <div class="trm-avatar-frame trm-mb-20">
         <img alt="Avatar" class="trm-avatar" src="/img/avatar.jpg">
@@ -283,7 +299,7 @@
     
 </div>
 <!-- card header end -->
-        <!-- sidebar social -->
+                <!-- sidebar social -->
 
 <div class="trm-divider trm-mb-40 trm-mt-40"></div>
 <div class="trm-social">
@@ -292,26 +308,39 @@
             <i class="iconfont fab fa-github"></i>
         </a>
     
+        <a href="/2818415316" title="QQ" rel="nofollow" target="_blank">
+            <i class="iconfont fab fa-qq"></i>
+        </a>
+    
 </div>
 
 <!-- sidebar social end -->
-        <!-- info -->
+                <!-- info -->
 <div class="trm-divider trm-mb-40 trm-mt-40"></div>
 <ul class="trm-table trm-mb-20">
     
         <li>
             <div class="trm-label">
-                Residence:
+                地址:
             </div>
             <div class="trm-label trm-label-light">
                 Mars
             </div>
         </li>
     
+        <li>
+            <div class="trm-label">
+                邮箱:
+            </div>
+            <div class="trm-label trm-label-light">
+                2818415316@qq.com
+            </div>
+        </li>
+    
 </ul>
 <!-- info end -->
 
-        
+                
     <div class="trm-divider trm-mb-40 trm-mt-40"></div>
     <!-- action button -->
     <div class="text-center">
@@ -322,6 +351,13 @@
     </div>
     <!-- action button end -->
 
+            </div>
+            <div name="tabs-toc" class="trm-tabs-item active">
+                <div class="post-toc">
+    <ol class="toc"><li class="toc-item toc-level-1"><a rel="nofollow" class="toc-link" href="#数据结构"  data-scroll-to="#数据结构"><span class="toc-number">1.</span> <span class="toc-text">数据结构</span></a></li><li class="toc-item toc-level-1"><a rel="nofollow" class="toc-link" href="#迭代器"  data-scroll-to="#迭代器"><span class="toc-number">2.</span> <span class="toc-text">迭代器</span></a></li><li class="toc-item toc-level-1"><a rel="nofollow" class="toc-link" href="#vector容器动态增长原理"  data-scroll-to="#vector容器动态增长原理"><span class="toc-number">3.</span> <span class="toc-text">vector容器动态增长原理</span></a></li><li class="toc-item toc-level-1"><a rel="nofollow" class="toc-link" href="#常用的api"  data-scroll-to="#常用的api"><span class="toc-number">4.</span> <span class="toc-text">常用的api</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a rel="nofollow" class="toc-link" href="#1-构造函数"  data-scroll-to="#1-构造函数"><span class="toc-number">4.1.</span> <span class="toc-text">1.构造函数</span></a></li><li class="toc-item toc-level-2"><a rel="nofollow" class="toc-link" href="#2-赋值操作"  data-scroll-to="#2-赋值操作"><span class="toc-number">4.2.</span> <span class="toc-text">2.赋值操作</span></a></li><li class="toc-item toc-level-2"><a rel="nofollow" class="toc-link" href="#3-大小操作"  data-scroll-to="#3-大小操作"><span class="toc-number">4.3.</span> <span class="toc-text">3.大小操作</span></a></li><li class="toc-item toc-level-2"><a rel="nofollow" class="toc-link" href="#4-reserve的作用"  data-scroll-to="#4-reserve的作用"><span class="toc-number">4.4.</span> <span class="toc-text">4.reserve的作用</span></a></li><li class="toc-item toc-level-2"><a rel="nofollow" class="toc-link" href="#5-swap的作用"  data-scroll-to="#5-swap的作用"><span class="toc-number">4.5.</span> <span class="toc-text">5.swap的作用</span></a></li><li class="toc-item toc-level-2"><a rel="nofollow" class="toc-link" href="#6-存取操作"  data-scroll-to="#6-存取操作"><span class="toc-number">4.6.</span> <span class="toc-text">6.存取操作</span></a></li><li class="toc-item toc-level-2"><a rel="nofollow" class="toc-link" href="#7-插入和删除"  data-scroll-to="#7-插入和删除"><span class="toc-number">4.7.</span> <span class="toc-text">7.插入和删除</span></a></li></ol></li><li class="toc-item toc-level-1"><a rel="nofollow" class="toc-link" href="#api的注意"  data-scroll-to="#api的注意"><span class="toc-number">5.</span> <span class="toc-text">api的注意</span></a></li><li class="toc-item toc-level-1"><a rel="nofollow" class="toc-link" href="#打印vector"  data-scroll-to="#打印vector"><span class="toc-number">6.</span> <span class="toc-text">打印vector</span></a></li></ol>
+</div>
+            </div>
+        </div>
     
     </div>
 </div>
@@ -420,6 +456,7 @@
         </h5>
     </div>
     
+    
         <div class="col-lg-6">
     <div class="trm-blog-card trm-scroll-animation" data-scroll data-scroll-offset="40">
         <a href="/2023/03/24/STL-string/" class="trm-cover-frame trm-anima-link">
@@ -438,38 +475,6 @@
             <h5>
                 <a href="/2023/03/24/STL-string/" class="trm-anima-link">
                     STL-string
-                </a>
-            </h5>
-            <div class="trm-divider trm-mb-20 trm-mt-20"></div>
-            <ul class="trm-card-data trm-label">
-                <li>23/03/24</li>
-                <li>11:24</li>
-                
-                
-            </ul>
-        </div>
-    </div>
-</div>
-    
-    
-        <div class="col-lg-6">
-    <div class="trm-blog-card trm-scroll-animation" data-scroll data-scroll-offset="40">
-        <a href="/2023/03/24/STL-deque/" class="trm-cover-frame trm-anima-link">
-            
-            
-                <img alt="cover" class="no-fancybox" src="/img/block.jpg">
-            
-        </a>
-        
-        <div class="trm-card-descr">
-            <div class="trm-label trm-category trm-mb-20">
-                <a href=" /categories/STL/">
-                    STL
-                </a>
-            </div>
-            <h5>
-                <a href="/2023/03/24/STL-deque/" class="trm-anima-link">
-                    STL-deque
                 </a>
             </h5>
             <div class="trm-divider trm-mb-20 trm-mt-20"></div>
@@ -546,6 +551,20 @@
   <!-- app wrapper end -->
 
   
+<div class="trm-search-popup">
+    <div class="trm-search-header">
+        <span class="trm-search-popup-btn-close">
+            <i class="iconfont fas fa-times"></i>
+        </span>
+    </div>
+    <div class="form trm-search-form">
+        <input class="trm-search-input" type="text" placeholder="搜索...">
+    </div>
+    <div class="trm-search-result-container">
+
+    </div>
+</div>
+
   <!-- Plugin -->
 
 
@@ -562,6 +581,11 @@
 
     
 
+    
+        
+<script src="https://unpkg.com/hexo-generator-searchdb@1.4.0/dist/search.js"></script>
+
+        <script src="/js/plugins/local_search.js?v=2.0.4"></script>
     
 
     <!-- 数学公式 -->

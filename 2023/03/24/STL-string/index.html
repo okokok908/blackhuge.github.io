@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="x5-fullscreen" content="true">
+<meta name="full-screen" content="yes">
+<meta name="theme-color" content="#317EFB" />
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=0" name="viewport">
+<meta name="description" content="数据结构连续的存储空间，用一个char*指向这片空间 迭代器随机访问迭代器 常用api及其用法1.构造函数string();&#x2F;&#x2F;创建一个空的字符串 例如: string str;string(const string&amp; str);&#x2F;&#x2F;使用一个string对象初始化另一个string对象string(const char* s);&#x2F;&amp;#x2F">
+<meta property="og:type" content="article">
+<meta property="og:title" content="STL-string">
+<meta property="og:url" content="http://example.com/2023/03/24/STL-string/index.html">
+<meta property="og:site_name" content="Eleven">
+<meta property="og:description" content="数据结构连续的存储空间，用一个char*指向这片空间 迭代器随机访问迭代器 常用api及其用法1.构造函数string();&#x2F;&#x2F;创建一个空的字符串 例如: string str;string(const string&amp; str);&#x2F;&#x2F;使用一个string对象初始化另一个string对象string(const char* s);&#x2F;&amp;#x2F">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-03-24T03:24:12.152Z">
+<meta property="article:modified_time" content="2023-03-24T03:42:29.184Z">
+<meta property="article:author" content="Tc">
+<meta property="article:tag" content="STL">
+<meta property="article:tag" content="C++">
+<meta name="twitter:card" content="summary">
+
+
+<title >STL-string</title>
+
+<!-- Favicon -->
+
+    <link href='/img/favicon.svg?v=2.0.4' rel='icon' type='image/png' sizes='16x16' ></link>
+
+
+    <link href='/img/favicon.svg?v=2.0.4' rel='icon' type='image/png' sizes='32x32' ></link>
+
+
+
+
+<!-- Plugin -->
+
+
+
+
+    
+<link rel="stylesheet" href="/css/plugins/bootstrap.row.css">
+
+    
+<link rel="stylesheet" href="https://unpkg.com/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.css">
+
+    
+<link rel="stylesheet" href="https://unpkg.com/@fancyapps/ui@4.0/dist/fancybox.css">
+
+    
+    
+
+
+
+
+<!-- Icon -->
+
+    
+<link rel="stylesheet" href="/css/plugins/font-awesome.min.css">
+
+
+
+
+<!-- Variable -->
+<script>window.ASYNC_CONFIG = {"hostname":"example.com","author":"Tc","root":"/","typed_text":null,"theme_version":"2.0.4","theme":{"switch":true,"default":"style-light"},"favicon":{"logo":"/img/favicon.svg","icon16":"/img/favicon.svg","icon32":"/img/favicon.svg","appleTouchIcon":null,"webmanifest":null,"visibilitychange":false,"hidden":"/failure.ico","showText":"(/≧▽≦/)Hey! Good again!","hideText":"(●—●)Oh, crash!"},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}.","hits":"${hits} results found","hits_time":"${hits} results found in ${time} ms","author":"Post author: ","copyright_link":"Post link: ","copyright_license_title":"Copyright Notice: ","copyright_license_content":"All articles in this blog are licensed under undefined unless otherwise stated.","copy_success":"Copied","copy_failure":"Copy failed","open_read_mode":"Enter reading mode","exit_read_mode":"Exit reading mode","notice_outdate_message":"It has been undefined days since the last update, the content of the article may be outdated.","just":"Just","min":"minutes ago","hour":"hours ago","day":"days ago","month":"months ago"},"swup":false,"plugin":{"flickr_justified_gallery":"https://unpkg.com/flickr-justified-gallery@latest/dist/fjGallery.min.js"},"icons":{"sun":"far fa-sun","moon":"far fa-moon","play":"fas fa-play","email":"far fa-envelope","next":"fas fa-arrow-right","calendar":"far fa-calendar-alt","clock":"far fa-clock","user":"far fa-user","back_top":"fas fa-arrow-up","close":"fas fa-times","search":"fas fa-search","reward":"fas fa-hand-holding-usd","user_tag":"fas fa-user-alt","toc_tag":"fas fa-th-list","read":"fas fa-book-reader","arrows":"fas fa-arrows-alt-h","double_arrows":"fas fa-angle-double-down","copy":"fas fa-copy"},"icontype":"font","highlight":{"plugin":"highlighjs","theme":true,"copy":true,"lang":true,"title":"default","height_limit":false}};</script>
+<script id="async-page-config">window.PAGE_CONFIG = {"isPost":true,"isHome":false,"postUpdate":"2023-03-24 11:42:29"};</script>
+
+<!-- Theme mode css -->
+<link data-swup-theme rel="stylesheet" href="/css/index.css?v=2.0.4" id="trm-switch-style">
+<script>
+    let defaultMode = ASYNC_CONFIG.theme.default !=='auto' ?  ASYNC_CONFIG.theme.default : (window.matchMedia("(prefers-color-scheme: light)").matches ? 'style-light' : 'style-dark')
+    let catchMode = localStorage.getItem('theme-mode') || defaultMode;
+    let type = catchMode === 'style-dark' ? 'add' : 'remove';
+    document.documentElement.classList[type]('dark')
+</script>
+
+<!-- CDN -->
+
+
+    
+    
+
+
+
+<!-- Site Analytics -->
+ 
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+
+  <!-- app wrapper -->
+  <div class="trm-app-frame">
+
+    <!-- page preloader -->
+    <div class="trm-preloader">
+    <div class="trm-holder">
+        <div class="preloader">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+</div>
+    <!-- page preloader end -->
+
+    <!-- change mode preloader -->
+    <div class="trm-mode-swich-animation-frame">
+    <div class="trm-mode-swich-animation">
+        <i class="i-sun"><i class="iconfont far fa-sun"></i></i>
+        <div class="trm-horizon"></div>
+        <i class="i-moon"><i class="iconfont far fa-moon"></i></i>
+    </div>
+</div>
+    <!-- change mode preloader end -->
+
+      <!-- scroll container -->
+      <div id="trm-dynamic-content" class="trm-swup-animation">
+        <div id="trm-scroll-container" class="trm-scroll-container" data-scroll-container style="opacity: 0">
+          <div data-scroll-section id="content" class="trm-scroll-section">
+
+            <div class="locomotive-scroll__sticky-target" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; pointer-events: none;"></div>
+
+            <!-- top bar -->
+            <header class="trm-top-bar" data-scroll data-scroll-sticky data-scroll-target=".locomotive-scroll__sticky-target" data-scroll-offset="-10">
+	<div class="container">
+		<div class="trm-left-side">
+			<!-- logo -->
+<a href="/" class="trm-logo-frame trm-anima-link">
+    
+        <img alt="logo" src="/img/favicon.svg">
+    
+    
+        <div class="trm-logo-text">
+            Async<span>Theme</span>
+        </div>
+    
+</a>
+<!-- logo end -->
+		</div>
+		<div class="trm-right-side">
+			<!-- menu -->
+<div class="trm-menu">
+    <nav>
+        <ul>
+            
+            <li class="menu-item-has-children ">
+                <a  href="/" target="">
+                    Home
+                </a>
+                
+            </li>
+            
+            <li class="menu-item-has-children ">
+                <a  href="/archives/" target="">
+                    Archives
+                </a>
+                
+            </li>
+            
+        </ul>
+    </nav>
+</div>
+<!-- menu end -->
+			
+    <!-- mode switcher place -->
+    <div class="trm-mode-switcher-place">
+        <div class="trm-mode-switcher">
+            <i class="iconfont far fa-sun"></i>
+            <input class="tgl tgl-light" id="trm-swich" type="checkbox">
+            <label class="trm-swich" for="trm-swich"></label>
+            <i class="iconfont far fa-moon"></i>
+        </div>
+    </div>
+    <!-- mode switcher place end -->
+
+			
+		</div>
+		<div class="trm-menu-btn">
+			<span></span>
+		</div>
+	</div>
+</header>
+            <!-- top bar end -->
+
+            <!-- body -->
+            
+<div class="trm-content-start">
+    <!-- banner -->
+    <div class="trm-banner" data-scroll data-scroll-direction="vertical">
+    
+    <!-- banner cover -->
+    <img style="object-position:top;object-fit:cover;" alt="banner" class="trm-banner-cover" data-scroll data-scroll-direction="vertical" data-scroll-speed="-3" src="/img/banner.png">
+    <!-- banner cover end -->
+    
+
+    <!-- banner content -->
+    <div class="trm-banner-content trm-overlay">
+        <div class="container" data-scroll data-scroll-direction="vertical" data-scroll-speed="0">
+            <div class="row">
+                
+                <div class="col-lg-4"></div>
+                
+                <div class="col-lg-8">
+
+                    <!-- banner title -->
+                    <div class="trm-banner-text ">
+                        <div class="trm-label trm-mb-20">
+                            NEWS LETTER
+                        </div>
+                        <h1 class="trm-mb-30 trm-hsmb-font">
+                            STL-string
+                        </h1>
+
+                        
+                            <ul class="trm-breadcrumbs trm-label">
+                                <li>
+                                    <a href="/" class="trm-anima-link">Home</a>
+                                </li>
+                                <li>
+                                    <span>
+                                        2023
+                                    </span
+                                ></li>
+                            </ul>
+                        
+                    </div>
+                    <!-- banner title end -->
+
+                    <!-- scroll hint -->
+                    <a href="#about-triger" data-scroll-to="#about-triger" data-scroll-offset="-130" class="trm-scroll-hint-frame">
+                        <div class="trm-scroll-hint"></div>
+                        <span class="trm-label">Scroll down</span>
+                    </a>
+                    <!-- scroll hint end -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- banner content end -->
+</div>
+    <!-- banner end -->
+    <div class="container">
+        <div class="row">
+            
+                <div id="page-sidebar" class="col-lg-4 hidden-sm">
+                    <!-- main card -->
+                    
+
+<div class="trm-main-card-frame trm-sidebar">
+    <div class="trm-main-card" data-scroll data-scroll-repeat data-scroll-sticky data-scroll-target=".locomotive-scroll__sticky-target" data-scroll-offset="60"> 
+    
+        <!-- card header -->
+<div class="trm-mc-header">
+    <div class="trm-avatar-frame trm-mb-20">
+        <img alt="Avatar" class="trm-avatar" src="/img/avatar.jpg">
+    </div>
+    <h5 class="trm-name trm-mb-15">
+        ThemeAsync
+    </h5>
+    
+</div>
+<!-- card header end -->
+        <!-- sidebar social -->
+
+<div class="trm-divider trm-mb-40 trm-mt-40"></div>
+<div class="trm-social">
+    
+        <a href="https://github.com" title="Github" rel="nofollow" target="_blank">
+            <i class="iconfont fab fa-github"></i>
+        </a>
+    
+</div>
+
+<!-- sidebar social end -->
+        <!-- info -->
+<div class="trm-divider trm-mb-40 trm-mt-40"></div>
+<ul class="trm-table trm-mb-20">
+    
+        <li>
+            <div class="trm-label">
+                Residence:
+            </div>
+            <div class="trm-label trm-label-light">
+                Mars
+            </div>
+        </li>
+    
+</ul>
+<!-- info end -->
+
+        
+    
+    </div>
+</div>
+                    <!-- main card end -->
+                </div>
+            
+            <div id="page-content" class="col-lg-8">
+                <div class="trm-content" id="trm-content">
+                    <div data-scroll data-scroll-repeat data-scroll-offset="500" id="about-triger"></div>
+
+                    <div id="post-info" class="row hidden-sm">
+    <div class="col-sm-4">
+        <div class="trm-card trm-label trm-label-light text-center">
+            <i class="iconfont far fa-calendar-alt trm-icon"></i><br>
+            03/24
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="trm-card trm-label trm-label-light text-center">
+            <i class="iconfont far fa-clock trm-icon"></i><br>
+            11:24
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div id="post-author" class="trm-card trm-label trm-label-light text-center">
+            <i class="iconfont far fa-user trm-icon"></i><br>
+            Tc
+        </div>
+    </div>
+</div>
+<div class="trm-card ">
+    <article id="article-container" class="trm-publication">
+    <h1 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h1><p>连续的存储空间，用一个char*指向这片空间</p>
+<h1 id="迭代器"><a href="#迭代器" class="headerlink" title="迭代器"></a>迭代器</h1><p>随机访问迭代器</p>
+<h1 id="常用api及其用法"><a href="#常用api及其用法" class="headerlink" title="常用api及其用法"></a>常用api及其用法</h1><h2 id="1-构造函数"><a href="#1-构造函数" class="headerlink" title="1.构造函数"></a>1.构造函数</h2><p>string();&#x2F;&#x2F;创建一个空的字符串 例如: string str;<br>string(const string&amp; str);&#x2F;&#x2F;使用一个string对象初始化另一个string对象<br>string(const char* s);&#x2F;&#x2F;使用字符串s初始化<br>string(int n, char c);&#x2F;&#x2F;使用n个字符c初始化</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">test01</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">string s1;</span><br><span class="line"><span class="function">string <span class="title">s2</span><span class="params">(s1)</span></span>;</span><br><span class="line"><span class="function">string <span class="title">s3</span><span class="params">(<span class="string">&quot;fdsjk&quot;</span>)</span></span>;</span><br><span class="line"><span class="function">string <span class="title">s4</span><span class="params">(<span class="number">20</span>,<span class="string">&#x27;x&#x27;</span>)</span></span>;</span><br><span class="line">cout&lt;&lt;s3;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-基本赋值"><a href="#2-基本赋值" class="headerlink" title="2.基本赋值"></a>2.基本赋值</h2><p>string&amp;operator&#x3D;(const char* s);&#x2F;&#x2F;char*类型字符串 赋值给当前的字符串<br>string&amp;operator&#x3D;(const string&amp;s);&#x2F;&#x2F;把字符串s赋给当前的字符串<br>string&amp;operator&#x3D;(char c);&#x2F;&#x2F;字符赋值给当前的字符串<br>string&amp; assign(const char *s);&#x2F;&#x2F;把字符串s赋给当前的字符串<br>string&amp; assign(const char *s, int n);&#x2F;&#x2F;把字符串s的前n个字符赋给当前的字符串<br>string&amp; assign(const string&amp;s);&#x2F;&#x2F;把字符串s赋给当前字符串<br>string&amp; assign(int n, char c);&#x2F;&#x2F;用n个字符c赋给当前字符串<br>string&amp; assign(const string&amp;s, int start, int n);&#x2F;&#x2F;将s从start开始n个<br>字符赋值给字符串,如s&#x3D;hello,那么n&#x3D;3,start&#x3D;1，那么是hel中从e开始赋值3-1个字符</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">test02</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    string s1=<span class="string">&quot;abcdefg&quot;</span>;</span><br><span class="line">    string s2=s1;</span><br><span class="line">    string s3;</span><br><span class="line">    s3=<span class="string">&#x27;x&#x27;</span>;</span><br><span class="line">    cout&lt;&lt;s3&lt;&lt;endl;</span><br><span class="line"></span><br><span class="line">    s1.<span class="built_in">assign</span>(<span class="string">&quot;opopop&quot;</span>);</span><br><span class="line">    cout&lt;&lt;s1&lt;&lt;endl;</span><br><span class="line"></span><br><span class="line">    s2.<span class="built_in">assign</span>(<span class="string">&quot;ioioio&quot;</span>,<span class="number">3</span>);</span><br><span class="line">    cout&lt;&lt;s2&lt;&lt;endl;</span><br><span class="line"></span><br><span class="line">    s3.<span class="built_in">assign</span>(s2,<span class="number">1</span>,<span class="number">2</span>);</span><br><span class="line">    cout&lt;&lt;s3&lt;&lt;endl;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-存取字符"><a href="#3-存取字符" class="headerlink" title="3.存取字符"></a>3.存取字符</h2><p>char&amp;operator[](int n);&#x2F;&#x2F;通过[]方式取字符<br>char&amp; at(int n);&#x2F;&#x2F;通过at方法获取字符</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">test03</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    string s=<span class="string">&quot;asdfghjkl&quot;</span>;</span><br><span class="line">    <span class="keyword">for</span>(string::iterator it=s.<span class="built_in">begin</span>();it!=s.<span class="built_in">end</span>();it++)</span><br><span class="line">    &#123;</span><br><span class="line">        cout&lt;&lt;*it;</span><br><span class="line">    &#125;</span><br><span class="line">    cout&lt;&lt;endl;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;s.<span class="built_in">size</span>();i++)</span><br><span class="line">    &#123;</span><br><span class="line">        cout&lt;&lt;s[i];</span><br><span class="line">    &#125;</span><br><span class="line">    cout&lt;&lt;endl;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;s.<span class="built_in">size</span>();i++)</span><br><span class="line">    &#123;</span><br><span class="line">        cout&lt;&lt;s.<span class="built_in">at</span>(i);</span><br><span class="line">    &#125;</span><br><span class="line">    cout&lt;&lt;endl;</span><br><span class="line">    <span class="comment">//[]和at的区别：[]访问元素时，越界不抛异常，直接挂，at越界，会抛异常</span></span><br><span class="line">    <span class="keyword">try</span></span><br><span class="line">    &#123;</span><br><span class="line">       <span class="comment">// cout&lt;&lt;s[1000];</span></span><br><span class="line">       s.<span class="built_in">at</span>(<span class="number">1000</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">catch</span>(out_of_range &amp;ex)</span><br><span class="line">    &#123;</span><br><span class="line">        cout&lt;&lt;ex.<span class="built_in">what</span>()&lt;&lt;endl;</span><br><span class="line">        cout&lt;&lt;<span class="string">&quot;at越界&quot;</span>&lt;&lt;endl;</span><br><span class="line">    &#125;</span><br><span class="line">  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="4-拼接"><a href="#4-拼接" class="headerlink" title="4.拼接"></a>4.拼接</h2><p>string&amp;operator+&#x3D;(const string&amp; str);&#x2F;&#x2F;重载+&#x3D;操作符<br>string&amp;operator+&#x3D;(const char* str);&#x2F;&#x2F;重载+&#x3D;操作符<br>string&amp;operator+&#x3D;(const char c);&#x2F;&#x2F;重载+&#x3D;操作符<br>string&amp; append(const char *s);&#x2F;&#x2F;把字符串s连接到当前字符串结尾<br>string&amp; append(const char *s, int n);&#x2F;&#x2F;把字符串s的前n个字符连接到当前字符串结尾<br>string&amp; append(const string&amp;s);&#x2F;&#x2F;同operator+&#x3D;()<br>string&amp; append(const string&amp;s, int pos, int n);&#x2F;&#x2F;把字符串s中从pos开始的n个字符连接到当前字符串结尾<br>string&amp; append(int n, char c);&#x2F;&#x2F;在当前字符串结尾添加n个字符c</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">test04</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    string s=<span class="string">&quot;uuuuuuuuuu&quot;</span>;</span><br><span class="line">    s+=<span class="string">&quot;123&quot;</span>;</span><br><span class="line">    s.<span class="built_in">append</span>(<span class="string">&quot;iiiiiii&quot;</span>,<span class="number">3</span>);</span><br><span class="line">    s.<span class="built_in">append</span>(<span class="string">&quot;yyyyyy&quot;</span>,<span class="number">2</span>,<span class="number">4</span>);</span><br><span class="line"></span><br><span class="line">    cout&lt;&lt;s;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="5-查找和替换"><a href="#5-查找和替换" class="headerlink" title="5.查找和替换"></a>5.查找和替换</h2><p>int find(const string&amp; str, int pos &#x3D; 0) const; &#x2F;&#x2F;查找str第一次出现位置,从pos开始查找<br>int find(constchar* s, int pos &#x3D; 0) const;  &#x2F;&#x2F;查找s第一次出现位置,从pos开始查找<br>int find(constchar* s, int pos, int n) const;  &#x2F;&#x2F;从pos位置查找s的前n个字符第一次位置<br>int find(constchar c, int pos &#x3D; 0) const;  &#x2F;&#x2F;查找字符c第一次出现位置<br>int rfind(conststring&amp; str, int pos &#x3D; npos) const;&#x2F;&#x2F;查找str最后一次位置,从pos开始查找<br>int rfind(constchar* s, int pos &#x3D; npos) const;&#x2F;&#x2F;查找s最后一次出现位置,从pos开始查找<br>int rfind(constchar* s, int pos, int n) const;&#x2F;&#x2F;从pos查找s的前n个字符最后一次位置<br>int rfind(constchar c, int pos &#x3D; 0) const; &#x2F;&#x2F;查找字符c最后一次出现位置<br>string&amp; replace(int pos, int n, const string&amp; str); &#x2F;&#x2F;替换从pos开始n个字符为字符串str<br>string&amp; replace(int pos, int n, const char* s); &#x2F;&#x2F;替换从pos开始的n个字符为字符串s</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">test05</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    string s=<span class="string">&quot;abcdefghijak&quot;</span>;</span><br><span class="line">    cout&lt;&lt;s.<span class="built_in">find</span>(<span class="string">&#x27;f&#x27;</span>)&lt;&lt;endl;</span><br><span class="line">    cout&lt;&lt;s.<span class="built_in">find</span>(<span class="string">&quot;cdiiiii&quot;</span>,<span class="number">0</span>,<span class="number">2</span>)&lt;&lt;endl;</span><br><span class="line"></span><br><span class="line">    cout&lt;&lt;s.<span class="built_in">rfind</span>(<span class="string">&#x27;a&#x27;</span>)&lt;&lt;endl;</span><br><span class="line"></span><br><span class="line">    s.<span class="built_in">replace</span>(<span class="number">2</span>,<span class="number">4</span>,<span class="string">&quot;123&quot;</span>);<span class="comment">//将4个元素替换成123</span></span><br><span class="line">    cout&lt;&lt;s;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="6-比较"><a href="#6-比较" class="headerlink" title="6.比较"></a>6.比较</h2><p>compare函数在&gt;时返回 1，&lt;时返回 -1，&#x3D;&#x3D;时返回 0。<br>比较区分大小写，比较时参考字典顺序，排越前面的越小。<br>大写的A比小写的a小。</p>
+<p>int compare(const string&amp;s) const;&#x2F;&#x2F;与字符串s比较<br>int compare(const char *s) const;&#x2F;&#x2F;与字符串s比较</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">test06</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    string s1=<span class="string">&quot;aaabc&quot;</span>;</span><br><span class="line">    string s2=<span class="string">&quot;aAabc&quot;</span>;</span><br><span class="line"></span><br><span class="line">    cout&lt;&lt;s1.<span class="built_in">compare</span>(s2);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="7-子串"><a href="#7-子串" class="headerlink" title="7.子串"></a>7.子串</h2><p>子串<br>string substr(int pos &#x3D; 0, int n &#x3D; npos) const;&#x2F;&#x2F;返回由pos开始的n个字符组成的字符串</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">test07</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    string s=<span class="string">&quot;123456@xx.email&quot;</span>;</span><br><span class="line">    string s1=s.<span class="built_in">substr</span>(<span class="number">0</span>,<span class="number">5</span>);</span><br><span class="line">    string s2=s.<span class="built_in">substr</span>(<span class="number">7</span>,s.<span class="built_in">size</span>()<span class="number">-1</span>);</span><br><span class="line">    cout&lt;&lt;s1&lt;&lt;endl;</span><br><span class="line">    cout&lt;&lt;s2&lt;&lt;endl;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="8-插入和删除"><a href="#8-插入和删除" class="headerlink" title="8.插入和删除"></a>8.插入和删除</h2><p>string&amp; insert(int pos, const char* s); &#x2F;&#x2F;插入字符串<br>string&amp; insert(int pos, const string&amp; str); &#x2F;&#x2F;插入字符串<br>string&amp; insert(int pos, int n, char c);&#x2F;&#x2F;在指定位置插入n个字符c<br>string&amp; erase(int pos, int n &#x3D; npos);&#x2F;&#x2F;删除从Pos开始的n个字符</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">test08</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    string s=<span class="string">&quot;abcdefg&quot;</span>;</span><br><span class="line">    s.<span class="built_in">insert</span>(<span class="number">3</span>,<span class="string">&quot;123&quot;</span>);</span><br><span class="line">    cout&lt;&lt;s&lt;&lt;endl;</span><br><span class="line">    s.<span class="built_in">erase</span>(<span class="number">3</span>,<span class="number">1</span>);</span><br><span class="line">    cout&lt;&lt;s&lt;&lt;endl;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="9-string和const-char-转换"><a href="#9-string和const-char-转换" class="headerlink" title="9.string和const char*转换"></a>9.string和const char*转换</h2><p>string和c-style字符串转换</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">test09</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    string s=<span class="string">&quot;12345676678&quot;</span>;</span><br><span class="line">   <span class="type">const</span> <span class="type">char</span>* s1=s.<span class="built_in">c_str</span>();</span><br><span class="line"></span><br><span class="line">   string s2=<span class="built_in">string</span>(s1);</span><br><span class="line">   cout&lt;&lt;s2&lt;&lt;endl;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="10-用迭代器遍历字符"><a href="#10-用迭代器遍历字符" class="headerlink" title="10.用迭代器遍历字符"></a>10.用迭代器遍历字符</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">test10</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    string s=<span class="string">&quot;9999888777&quot;</span>;</span><br><span class="line">    <span class="keyword">for</span>(string::iterator it=s.<span class="built_in">begin</span>();it!=s.<span class="built_in">end</span>();it++)</span><br><span class="line">    &#123;</span><br><span class="line">        cout&lt;&lt;*it;</span><br><span class="line">    &#125;</span><br><span class="line">    cout&lt;&lt;endl;</span><br><span class="line">    <span class="comment">//反向遍历  反向迭代器string::reverse_iterator</span></span><br><span class="line">    <span class="keyword">for</span>(string::reverse_iterator it=s.<span class="built_in">rbegin</span>();it!=s.<span class="built_in">rend</span>();it++)</span><br><span class="line">    &#123;</span><br><span class="line">         cout&lt;&lt;*it;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h1 id="常用的api中的注意"><a href="#常用的api中的注意" class="headerlink" title="常用的api中的注意"></a>常用的api中的注意</h1><p>1.[]和at区别：[]如果越界，不抛异常，直接挂。at会抛异常</p>
+<p>2.字符串内存重新分配，[]和at获取的字符引用，再次使用时，可以能会出错</p>
+<p>3.string和char *的区别：string是一个类，char *是一个指针</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">test</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    string s=<span class="string">&quot;123456789&quot;</span>;</span><br><span class="line">    <span class="type">char</span> &amp;a=s[<span class="number">3</span>];<span class="comment">//s[3]返回的是引用</span></span><br><span class="line">    <span class="type">char</span> &amp;b=s[<span class="number">4</span>];</span><br><span class="line"></span><br><span class="line">    a=<span class="string">&#x27;a&#x27;</span>;</span><br><span class="line">    b=<span class="string">&#x27;b&#x27;</span>;</span><br><span class="line"></span><br><span class="line">    cout&lt;&lt;<span class="string">&quot;a:&quot;</span>&lt;&lt;a&lt;&lt;endl;</span><br><span class="line">    cout&lt;&lt;<span class="string">&quot;b:&quot;</span>&lt;&lt;b&lt;&lt;endl;</span><br><span class="line">    cout&lt;&lt;s&lt;&lt;endl;</span><br><span class="line">    cout&lt;&lt;<span class="string">&quot;s原地址:&quot;</span>&lt;&lt;(<span class="type">int</span>*)s.<span class="built_in">c_str</span>()&lt;&lt;endl;</span><br><span class="line">    cout&lt;&lt;<span class="string">&quot;a原地址:&quot;</span>&lt;&lt;(<span class="type">int</span>*)&amp;a&lt;&lt;endl;</span><br><span class="line">    s=<span class="string">&quot;ppppppppppppppppppppppppppp&quot;</span>;</span><br><span class="line">    cout&lt;&lt;<span class="string">&quot;s新地址:&quot;</span>&lt;&lt;(<span class="type">int</span>*)s.<span class="built_in">c_str</span>()&lt;&lt;endl;</span><br><span class="line">    cout&lt;&lt;<span class="string">&quot;a现地址:&quot;</span>&lt;&lt;(<span class="type">int</span>*)&amp;a&lt;&lt;endl;</span><br><span class="line">    <span class="comment">//原空间被释放，如果还是操作a，b则是非法空间操作</span></span><br><span class="line">    a=<span class="string">&#x27;x&#x27;</span>;</span><br><span class="line">    cout&lt;&lt;a;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+</article>
+    
+    
+</div>
+<div id="post-next-prev" class="row">
+    <div class="col-lg-12">
+        <!-- title -->
+        <h5 class="trm-title-with-divider">
+            Other Articles
+            <span data-number="02"></span>
+        </h5>
+    </div>
+    
+    
+        <div class="col-lg-6">
+    <div class="trm-blog-card trm-scroll-animation" data-scroll data-scroll-offset="40">
+        <a href="/2023/03/24/STL-vector/" class="trm-cover-frame trm-anima-link">
+            
+            
+                <img alt="cover" class="no-fancybox" src="/img/block.jpg">
+            
+        </a>
+        
+        <div class="trm-card-descr">
+            <div class="trm-label trm-category trm-mb-20">
+                <a href=" /categories/STL/">
+                    STL
+                </a>
+            </div>
+            <h5>
+                <a href="/2023/03/24/STL-vector/" class="trm-anima-link">
+                    STL-vector
+                </a>
+            </h5>
+            <div class="trm-divider trm-mb-20 trm-mt-20"></div>
+            <ul class="trm-card-data trm-label">
+                <li>23/03/24</li>
+                <li>11:24</li>
+                
+                
+            </ul>
+        </div>
+    </div>
+</div>
+    
+</div>
+
+    
+
+
+
+                    <div class="trm-divider footer-divider"></div>
+
+                    <!-- footer -->
+                    <footer class="trm-scroll-animation" data-scroll data-scroll-offset="50">
+
+    
+
+    
+
+    
+        <div class="trm-footer-item">
+            <span>
+                Powered by <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> v6.3.0
+            </span>
+            <span class="footer-separator" data-separator=" | "></span>
+            <span> 
+                Theme - 
+                <a rel="noopener" href='https://github.com/MaLuns/hexo-theme-async' target='_blank'>Async</a>
+                v2.0.4
+            </span>
+        </div>
+      
+
+     
+
+     
+</footer>
+ 
+                    <!-- footer end -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+            <!-- body end -->
+
+            <div class="trm-fixed-container" data-scroll data-scroll-sticky data-scroll-target=".locomotive-scroll__sticky-target" data-scroll-offset="-10">
+    
+        <div class="trm-fixed-btn" data-title="Read Mode" onclick="asyncFun.switchReadMode()">
+            <i class="iconfont fas fa-book-reader"></i>
+        </div>
+    
+    
+    <div id="trm-back-top" class="trm-fixed-btn" data-title="Back To Top">
+        <i class="iconfont fas fa-arrow-up"></i>
+    </div>
+</div>
+          </div>
+        </div>
+      </div>
+      <!-- scroll container end -->
+
+  </div>
+  <!-- app wrapper end -->
+
+  
+  <!-- Plugin -->
+
+
+
+
+    
+    
+<script src="https://unpkg.com/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.js"></script>
+
+    
+<script src="https://unpkg.com/@fancyapps/ui@4.0/dist/fancybox.umd.js"></script>
+
+    
+
+    
+
+    
+
+    <!-- 数学公式 -->
+    
+
+    <!-- 评论插件 -->
+    
+        
+
+        
+    
+
+
+
+<!-- CDN -->
+
+
+    
+
+    
+
+    
+
+
+
+
+    <!-- Service Worker -->
+    
+    <!-- baidu push -->
+    
+
+
+<script id="async-script" src="/js/main.js?v=2.0.4"></script>
+
+</body>
+
+</html>

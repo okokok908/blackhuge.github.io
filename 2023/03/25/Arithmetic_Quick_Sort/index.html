@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="x5-fullscreen" content="true">
+<meta name="full-screen" content="yes">
+<meta name="theme-color" content="#317EFB" />
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=0" name="viewport">
+<meta name="description" content="快速排序快速排序是Hoare于1962年提出的一种二叉树结构的交换排序方法，其基本思想为:任取待排序 元素序列中的某元素作为基准值，按照该排序码将待排序集合分割成两子序列，左子序列中所有 元素均小于基准值，右子序列中所有元素均大于基准值，然后最左右子序列重复该过程，直到所 有元素都排列在相应位置上为止。将区间按照基准值划分为左右两半部分的常见方式有: 1.挖坑法 2.左右指针法 3.前后指针法 时">
+<meta property="og:type" content="article">
+<meta property="og:title" content="快速排序">
+<meta property="og:url" content="http://example.com/2023/03/25/Arithmetic_Quick_Sort/index.html">
+<meta property="og:site_name" content="Eleven">
+<meta property="og:description" content="快速排序快速排序是Hoare于1962年提出的一种二叉树结构的交换排序方法，其基本思想为:任取待排序 元素序列中的某元素作为基准值，按照该排序码将待排序集合分割成两子序列，左子序列中所有 元素均小于基准值，右子序列中所有元素均大于基准值，然后最左右子序列重复该过程，直到所 有元素都排列在相应位置上为止。将区间按照基准值划分为左右两半部分的常见方式有: 1.挖坑法 2.左右指针法 3.前后指针法 时">
+<meta property="og:locale">
+<meta property="og:image" content="http://example.com/img/404.jpg">
+<meta property="og:image" content="http://example.com/img/404.jpg">
+<meta property="og:image" content="http://example.com/img/404.jpg">
+<meta property="og:image" content="http://example.com/img/404.jpg">
+<meta property="article:published_time" content="2023-03-25T14:46:13.616Z">
+<meta property="article:modified_time" content="2023-03-25T14:47:46.865Z">
+<meta property="article:author" content="Tc">
+<meta property="article:tag" content="C++">
+<meta property="article:tag" content="Arithmetic">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/img/404.jpg">
+
+
+<title >快速排序</title>
+
+<!-- Favicon -->
+
+    <link href='/img/favicon.svg?v=2.0.4' rel='icon' type='image/png' sizes='16x16' ></link>
+
+
+    <link href='/img/favicon.svg?v=2.0.4' rel='icon' type='image/png' sizes='32x32' ></link>
+
+
+
+
+<!-- Plugin -->
+
+
+
+
+    
+<link rel="stylesheet" href="/css/plugins/bootstrap.row.css">
+
+    
+<link rel="stylesheet" href="https://unpkg.com/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.css">
+
+    
+<link rel="stylesheet" href="https://unpkg.com/@fancyapps/ui@4.0/dist/fancybox.css">
+
+    
+    
+
+
+
+
+<!-- Icon -->
+
+    
+<link rel="stylesheet" href="/css/plugins/font-awesome.min.css">
+
+
+
+
+<!-- Variable -->
+<script>window.ASYNC_CONFIG = {"hostname":"example.com","author":"Tc","root":"/","typed_text":null,"theme_version":"2.0.4","theme":{"switch":true,"default":"style-light"},"favicon":{"logo":"/img/favicon.svg","icon16":"/img/favicon.svg","icon32":"/img/favicon.svg","appleTouchIcon":null,"webmanifest":null,"visibilitychange":false,"hidden":"/failure.ico","showText":"(/≧▽≦/)咦！又好了！","hideText":"(●—●)喔哟，崩溃啦！"},"i18n":{"placeholder":"搜索...","empty":"找不到您查询的内容: ${query}","hits":"找到 ${hits} 条结果","hits_time":"找到 ${hits} 条结果（用时 ${time} 毫秒）","author":"本文作者：","copyright_link":"本文链接：","copyright_license_title":"版权声明：","copyright_license_content":"本博客所有文章除特别声明外，均默认采用 undefined 许可协议。","copy_success":"复制成功","copy_failure":"复制失败","open_read_mode":"进入阅读模式","exit_read_mode":"退出阅读模式","notice_outdate_message":"距离上次更新已经 undefined 天了, 文章内容可能已经过时。","just":"刚刚","min":"分钟前","hour":"小时前","day":"天前","month":"个月前"},"swup":false,"plugin":{"flickr_justified_gallery":"https://unpkg.com/flickr-justified-gallery@latest/dist/fjGallery.min.js"},"icons":{"sun":"far fa-sun","moon":"far fa-moon","play":"fas fa-play","email":"far fa-envelope","next":"fas fa-arrow-right","calendar":"far fa-calendar-alt","clock":"far fa-clock","user":"far fa-user","back_top":"fas fa-arrow-up","close":"fas fa-times","search":"fas fa-search","reward":"fas fa-hand-holding-usd","user_tag":"fas fa-user-alt","toc_tag":"fas fa-th-list","read":"fas fa-book-reader","arrows":"fas fa-arrows-alt-h","double_arrows":"fas fa-angle-double-down","copy":"fas fa-copy"},"icontype":"font","highlight":{"plugin":"highlighjs","theme":true,"copy":true,"lang":true,"title":"default","height_limit":false},"search":{"enable":true,"type":"local","href":"https://www.baidu.com/s?wd=site:","domain":null,"path":"search.xml"}};</script>
+<script id="async-page-config">window.PAGE_CONFIG = {"isPost":true,"isHome":false,"postUpdate":"2023-03-25 22:47:46"};</script>
+
+<!-- Theme mode css -->
+<link data-swup-theme rel="stylesheet" href="/css/index.css?v=2.0.4" id="trm-switch-style">
+<script>
+    let defaultMode = ASYNC_CONFIG.theme.default !=='auto' ?  ASYNC_CONFIG.theme.default : (window.matchMedia("(prefers-color-scheme: light)").matches ? 'style-light' : 'style-dark')
+    let catchMode = localStorage.getItem('theme-mode') || defaultMode;
+    let type = catchMode === 'style-dark' ? 'add' : 'remove';
+    document.documentElement.classList[type]('dark')
+</script>
+
+<!-- CDN -->
+
+
+    
+    
+
+
+
+<!-- Site Analytics -->
+ 
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+
+  <!-- app wrapper -->
+  <div class="trm-app-frame">
+
+    <!-- page preloader -->
+    <div class="trm-preloader">
+    <div class="trm-holder">
+        <div class="preloader">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+</div>
+    <!-- page preloader end -->
+
+    <!-- change mode preloader -->
+    <div class="trm-mode-swich-animation-frame">
+    <div class="trm-mode-swich-animation">
+        <i class="i-sun"><i class="iconfont far fa-sun"></i></i>
+        <div class="trm-horizon"></div>
+        <i class="i-moon"><i class="iconfont far fa-moon"></i></i>
+    </div>
+</div>
+    <!-- change mode preloader end -->
+
+      <!-- scroll container -->
+      <div id="trm-dynamic-content" class="trm-swup-animation">
+        <div id="trm-scroll-container" class="trm-scroll-container" data-scroll-container style="opacity: 0">
+          <div data-scroll-section id="content" class="trm-scroll-section">
+
+            <div class="locomotive-scroll__sticky-target" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; pointer-events: none;"></div>
+
+            <!-- top bar -->
+            <header class="trm-top-bar" data-scroll data-scroll-sticky data-scroll-target=".locomotive-scroll__sticky-target" data-scroll-offset="-10">
+	<div class="container">
+		<div class="trm-left-side">
+			<!-- logo -->
+<a href="/" class="trm-logo-frame trm-anima-link">
+    
+        <img alt="logo" src="/img/favicon.svg">
+    
+    
+        <div class="trm-logo-text">
+            T<span>C</span>
+        </div>
+    
+</a>
+<!-- logo end -->
+		</div>
+		<div class="trm-right-side">
+			<!-- menu -->
+<div class="trm-menu">
+    <nav>
+        <ul>
+            
+            <li class="menu-item-has-children ">
+                <a  href="/" target="">
+                    首页
+                </a>
+                
+            </li>
+            
+            <li class="menu-item-has-children ">
+                <a  href="/archives/" target="">
+                    归档
+                </a>
+                
+            </li>
+            
+            <li class="menu-item-has-children ">
+                <a  href="/categories/" target="">
+                    分类
+                </a>
+                
+            </li>
+            
+            <li class="menu-item-has-children ">
+                <a  href="/tags/" target="">
+                    标签
+                </a>
+                
+            </li>
+            
+        </ul>
+    </nav>
+</div>
+<!-- menu end -->
+			
+    <!-- mode switcher place -->
+    <div class="trm-mode-switcher-place">
+        <div class="trm-mode-switcher">
+            <i class="iconfont far fa-sun"></i>
+            <input class="tgl tgl-light" id="trm-swich" type="checkbox">
+            <label class="trm-swich" for="trm-swich"></label>
+            <i class="iconfont far fa-moon"></i>
+        </div>
+    </div>
+    <!-- mode switcher place end -->
+
+			
+    
+    <div id="trm-search-btn" class="trm-search-btn">
+        <i class="iconfont fas fa-search"></i>
+    </div>
+     
+
+		</div>
+		<div class="trm-menu-btn">
+			<span></span>
+		</div>
+	</div>
+</header>
+            <!-- top bar end -->
+
+            <!-- body -->
+            
+<div class="trm-content-start">
+    <!-- banner -->
+    <div class="trm-banner" data-scroll data-scroll-direction="vertical">
+    
+    <!-- banner cover -->
+    <img style="object-position:top;object-fit:cover;" alt="banner" class="trm-banner-cover" data-scroll data-scroll-direction="vertical" data-scroll-speed="-3" src="/img/pic/5.jpeg">
+    <!-- banner cover end -->
+    
+
+    <!-- banner content -->
+    <div class="trm-banner-content trm-overlay">
+        <div class="container" data-scroll data-scroll-direction="vertical" data-scroll-speed="0">
+            <div class="row">
+                
+                <div class="col-lg-4"></div>
+                
+                <div class="col-lg-8">
+
+                    <!-- banner title -->
+                    <div class="trm-banner-text ">
+                        <div class="trm-label trm-mb-20">
+                            NEWS LETTER
+                        </div>
+                        <h1 class="trm-mb-30 trm-hsmb-font">
+                            快速排序
+                        </h1>
+
+                        
+                            <ul class="trm-breadcrumbs trm-label">
+                                <li>
+                                    <a href="/" class="trm-anima-link">Home</a>
+                                </li>
+                                <li>
+                                    <span>
+                                        2023
+                                    </span
+                                ></li>
+                            </ul>
+                        
+                    </div>
+                    <!-- banner title end -->
+
+                    <!-- scroll hint -->
+                    <a href="#about-triger" data-scroll-to="#about-triger" data-scroll-offset="-130" class="trm-scroll-hint-frame">
+                        <div class="trm-scroll-hint"></div>
+                        <span class="trm-label">Scroll down</span>
+                    </a>
+                    <!-- scroll hint end -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- banner content end -->
+</div>
+    <!-- banner end -->
+    <div class="container">
+        <div class="row">
+            
+                <div id="page-sidebar" class="col-lg-4 hidden-sm">
+                    <!-- main card -->
+                    
+
+<div class="trm-main-card-frame trm-sidebar">
+    <div class="trm-main-card" data-scroll data-scroll-repeat data-scroll-sticky data-scroll-target=".locomotive-scroll__sticky-target" data-scroll-offset="60"> 
+    
+        <div class="trm-user-tabs" id="sidebar-tabs">
+           <div class="trm-tabs-nav trm-mb-40" id="trm-tabs-nav">
+                <div data-to="tabs-user" class="trm-tabs-nav-item">
+                    <i class="iconfont fas fa-user-alt"></i>
+                </div>
+                <div data-to="tabs-toc" class="trm-tabs-nav-item active">
+                    <i class="iconfont fas fa-th-list"></i>
+                </div>
+           </div>
+            <div name="tabs-user" class="trm-tabs-item">
+                <!-- card header -->
+<div class="trm-mc-header">
+    <div class="trm-avatar-frame trm-mb-20">
+        <img alt="Avatar" class="trm-avatar" src="/img/avatar.jpg">
+    </div>
+    <h5 class="trm-name trm-mb-15">
+        TC小站
+    </h5>
+    
+</div>
+<!-- card header end -->
+                <!-- sidebar social -->
+
+<div class="trm-divider trm-mb-40 trm-mt-40"></div>
+<div class="trm-social">
+    
+        <a href="https://github.com" title="Github" rel="nofollow" target="_blank">
+            <i class="iconfont fab fa-github"></i>
+        </a>
+    
+        <a href="/2818415316" title="QQ" rel="nofollow" target="_blank">
+            <i class="iconfont fab fa-qq"></i>
+        </a>
+    
+</div>
+
+<!-- sidebar social end -->
+                <!-- info -->
+<div class="trm-divider trm-mb-40 trm-mt-40"></div>
+<ul class="trm-table trm-mb-20">
+    
+        <li>
+            <div class="trm-label">
+                地址:
+            </div>
+            <div class="trm-label trm-label-light">
+                Mars
+            </div>
+        </li>
+    
+        <li>
+            <div class="trm-label">
+                邮箱:
+            </div>
+            <div class="trm-label trm-label-light">
+                2818415316@qq.com
+            </div>
+        </li>
+    
+</ul>
+<!-- info end -->
+
+                
+    <div class="trm-divider trm-mb-40 trm-mt-40"></div>
+    <!-- action button -->
+    <div class="text-center">
+        <a href="mailto:2818415316@QQ.COM" class="trm-btn">
+            联系我
+            <i class="iconfont far fa-envelope"></i>
+        </a>
+    </div>
+    <!-- action button end -->
+
+            </div>
+            <div name="tabs-toc" class="trm-tabs-item active">
+                <div class="post-toc">
+    <ol class="toc"><li class="toc-item toc-level-1"><a rel="nofollow" class="toc-link" href="#快速排序"  data-scroll-to="#快速排序"><span class="toc-number">1.</span> <span class="toc-text">快速排序</span></a></li><li class="toc-item toc-level-1"><a rel="nofollow" class="toc-link" href="#时间复杂度"  data-scroll-to="#时间复杂度"><span class="toc-number">2.</span> <span class="toc-text">时间复杂度</span></a></li><li class="toc-item toc-level-1"><a rel="nofollow" class="toc-link" href="#稳定性"  data-scroll-to="#稳定性"><span class="toc-number">3.</span> <span class="toc-text">稳定性</span></a></li><li class="toc-item toc-level-1"><a rel="nofollow" class="toc-link" href="#挖坑法"  data-scroll-to="#挖坑法"><span class="toc-number">4.</span> <span class="toc-text">挖坑法</span></a></li><li class="toc-item toc-level-1"><a rel="nofollow" class="toc-link" href="#前后指针法"  data-scroll-to="#前后指针法"><span class="toc-number">5.</span> <span class="toc-text">前后指针法</span></a></li><li class="toc-item toc-level-1"><a rel="nofollow" class="toc-link" href="#左右指针法"  data-scroll-to="#左右指针法"><span class="toc-number">6.</span> <span class="toc-text">左右指针法</span></a></li><li class="toc-item toc-level-1"><a rel="nofollow" class="toc-link" href="#三数取中"  data-scroll-to="#三数取中"><span class="toc-number">7.</span> <span class="toc-text">三数取中</span></a></li><li class="toc-item toc-level-1"><a rel="nofollow" class="toc-link" href="#上述方法的主函数"  data-scroll-to="#上述方法的主函数"><span class="toc-number">8.</span> <span class="toc-text">上述方法的主函数</span></a></li><li class="toc-item toc-level-1"><a rel="nofollow" class="toc-link" href="#快排非递归"  data-scroll-to="#快排非递归"><span class="toc-number">9.</span> <span class="toc-text">快排非递归</span></a></li><li class="toc-item toc-level-1"><a rel="nofollow" class="toc-link" href="#优化方案-采取左右指针"  data-scroll-to="#优化方案-采取左右指针"><span class="toc-number">10.</span> <span class="toc-text">优化方案-采取左右指针</span></a></li></ol>
+</div>
+            </div>
+        </div>
+    
+    </div>
+</div>
+                    <!-- main card end -->
+                </div>
+            
+            <div id="page-content" class="col-lg-8">
+                <div class="trm-content" id="trm-content">
+                    <div data-scroll data-scroll-repeat data-scroll-offset="500" id="about-triger"></div>
+
+                    <div id="post-info" class="row hidden-sm">
+    <div class="col-sm-4">
+        <div class="trm-card trm-label trm-label-light text-center">
+            <i class="iconfont far fa-calendar-alt trm-icon"></i><br>
+            03/25
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="trm-card trm-label trm-label-light text-center">
+            <i class="iconfont far fa-clock trm-icon"></i><br>
+            22:46
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div id="post-author" class="trm-card trm-label trm-label-light text-center">
+            <i class="iconfont far fa-user trm-icon"></i><br>
+            Tc
+        </div>
+    </div>
+</div>
+<div class="trm-card ">
+    <article id="article-container" class="trm-publication">
+    <h1 id="快速排序"><a href="#快速排序" class="headerlink" title="快速排序"></a>快速排序</h1><p>快速排序是Hoare于1962年提出的一种二叉树结构的交换排序方法，其基本思想为:任取待排序 元素序列中的某元素作为基准值，按照该排序码将待排序集合分割成两子序列，左子序列中所有 元素均小于基准值，右子序列中所有元素均大于基准值，然后最左右子序列重复该过程，直到所 有元素都排列在相应位置上为止。<br><strong>将区间按照基准值划分为左右两半部分的常见方式有:</strong></p>
+<p><strong>1.挖坑法 2.左右指针法 3.前后指针法</strong></p>
+<h1 id="时间复杂度"><a href="#时间复杂度" class="headerlink" title="时间复杂度"></a>时间复杂度</h1><p><strong>O(N*log 	N)</strong></p>
+<p><a target="_blank" rel="noopener" href="https://cloudimge.com/image/nzVKR"><img src="https://c.1ovv.com/2023/03/25/nzVKR.md.jpeg" alt="nzVKR.md.jpeg" loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></a></p>
+<h1 id="稳定性"><a href="#稳定性" class="headerlink" title="稳定性"></a>稳定性</h1><p>不稳定排序</p>
+<h1 id="挖坑法"><a href="#挖坑法" class="headerlink" title="挖坑法"></a>挖坑法</h1><p><a target="_blank" rel="noopener" href="https://cloudimge.com/image/nzdjd"><img src="https://c.1ovv.com/2023/03/25/nzdjd.md.png" alt="nzdjd.md.png" loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></a></p>
+<p>先讲左端或右端的值设定为key,key右边的值比key大，左边的值比key小，也就是说end–的行动方式为&gt;a[key]，同理左边的行动方式为&lt;a[key]</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//挖坑法</span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">PartSort1</span><span class="params">(<span class="type">int</span>* a, <span class="type">int</span> left, <span class="type">int</span> right)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="comment">//将中间值置换到begin位置，解决有序最坏的情况</span></span><br><span class="line">	<span class="type">int</span> mid = <span class="built_in">GetMidIndex</span>(a, left, right);</span><br><span class="line">	<span class="built_in">swap</span>(a[left], a[mid]);</span><br><span class="line"></span><br><span class="line">	<span class="type">int</span> begin = left, end = right;</span><br><span class="line">	<span class="type">int</span> key = a[begin];</span><br><span class="line">	<span class="type">int</span> pivot = begin;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">while</span> (begin &lt; end)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="comment">//右边找小，放到左边</span></span><br><span class="line">		<span class="keyword">while</span> (a[end] &gt;= key &amp;&amp; begin &lt; end)<span class="comment">//判断范围加全，避免在--的过程中，end&lt;begin 注意是&gt;=  ＝一定要加上不然容易死循环</span></span><br><span class="line">		&#123;</span><br><span class="line">			end--;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">//小的放到左边坑位，自己形成新的坑位</span></span><br><span class="line">		a[pivot] = a[end];</span><br><span class="line">		pivot = end;</span><br><span class="line">		<span class="comment">//左边找大，放到右边</span></span><br><span class="line">		<span class="keyword">while</span> (a[begin] &lt;= key &amp;&amp; begin &lt; end)</span><br><span class="line">		&#123;</span><br><span class="line">			begin++;</span><br><span class="line">		&#125;</span><br><span class="line">		a[pivot] = a[begin];</span><br><span class="line">		pivot = begin;</span><br><span class="line">	&#125;</span><br><span class="line">	pivot = begin;</span><br><span class="line">	a[begin] = key;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> pivot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="前后指针法"><a href="#前后指针法" class="headerlink" title="前后指针法"></a>前后指针法</h1><p><a target="_blank" rel="noopener" href="https://cloudimge.com/image/nzfL4"><img src="https://c.1ovv.com/2023/03/25/nzfL4.md.png" alt="nzfL4.md.png" loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></a></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//前后指针法 </span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">PartSort3</span><span class="params">(<span class="type">int</span>* a, <span class="type">int</span> left, <span class="type">int</span> right)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="type">int</span> prev = left, cur = left + <span class="number">1</span>;</span><br><span class="line">	<span class="type">int</span> keyi = left;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">while</span> (cur &lt;= right)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span> (a[cur] &lt;= a[keyi] &amp;&amp; ++prev != cur)<span class="comment">//注意是前置++    ++prev != cur 防止自己与自己交换</span></span><br><span class="line">		&#123;</span><br><span class="line">			prev++;</span><br><span class="line">			<span class="built_in">Swap</span>(&amp;a[prev], &amp;a[cur]);</span><br><span class="line">		&#125;</span><br><span class="line">		cur++;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">Swap</span>(&amp;a[keyi], &amp;a[prev]);</span><br><span class="line">	keyi = prev;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> keyi;</span><br><span class="line"> &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h1 id="左右指针法"><a href="#左右指针法" class="headerlink" title="左右指针法"></a>左右指针法</h1><p>同挖洞法，左边找大，右边找小，然后交换</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//挖坑法类似，，左右指针法</span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">PartSort2</span><span class="params">(<span class="type">int</span>* a, <span class="type">int</span> left, <span class="type">int</span> right)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="comment">//将中间值置换到begin位置，解决有序最坏的情况</span></span><br><span class="line">	<span class="type">int</span> mid = <span class="built_in">GetMidIndex</span>(a, left, right);</span><br><span class="line">	<span class="built_in">swap</span>(a[left], a[mid]);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	<span class="type">int</span> begin = left, end = right;</span><br><span class="line">	<span class="type">int</span> keyi = begin;</span><br><span class="line">	<span class="keyword">while</span> (begin &lt; end)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">while</span> (begin &lt; end &amp;&amp; a[end] &gt;= a[keyi])</span><br><span class="line">		&#123;</span><br><span class="line">			end--;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">while</span> (begin &lt; end &amp;&amp; a[begin] &lt;= a[keyi])</span><br><span class="line">		&#123;</span><br><span class="line">			begin++;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="built_in">swap</span>(a[begin], a[end]);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">swap</span>(a[keyi], a[begin]);</span><br><span class="line">	keyi = begin;</span><br><span class="line">	<span class="keyword">return</span> keyi;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="三数取中"><a href="#三数取中" class="headerlink" title="三数取中"></a>三数取中</h1><p><a target="_blank" rel="noopener" href="https://cloudimge.com/image/nzrvW"><img src="https://c.1ovv.com/2023/03/25/nzrvW.md.png" alt="nzrvW.md.png" loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></a></p>
+<p>若不采用三数取中，时间复杂度为n^2；</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">GetMidIndex</span><span class="params">(<span class="type">int</span>* a, <span class="type">int</span> left, <span class="type">int</span> right)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="type">int</span> mid = (left + right) &gt;&gt; <span class="number">1</span>;</span><br><span class="line">	<span class="keyword">if</span> (a[left] &gt; a[mid])</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span> (a[mid] &gt; a[right])</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">return</span> mid;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span> <span class="keyword">if</span> (a[left] &gt; a[right])</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">return</span> right;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">return</span> left;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span><span class="comment">//a[left] &lt; a[mid]</span></span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span> (a[mid] &lt; a[right])</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">return</span> mid;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span> <span class="keyword">if</span> (a[left] &lt; a[right])</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">return</span> right;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">return</span> left;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="上述方法的主函数"><a href="#上述方法的主函数" class="headerlink" title="上述方法的主函数"></a>上述方法的主函数</h1><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//快速排序</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">QuickSort</span><span class="params">(<span class="type">int</span>* a, <span class="type">int</span> left,<span class="type">int</span> right)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (left &gt;= right)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="type">int</span> KeyIndex = <span class="built_in">PartSort3</span>(a, left, right);</span><br><span class="line">	<span class="comment">//[left,right]</span></span><br><span class="line">	<span class="comment">//[left,KeyIndex-1]KeyIndex[KeyIndex+1,right]</span></span><br><span class="line">	<span class="comment">////左右子区间有序了，那么整个数组有序， 怎么有序 分而自治</span></span><br><span class="line">	<span class="comment">//QuickSort(a, left, KeyIndex - 1);</span></span><br><span class="line">	<span class="comment">//QuickSort(a, KeyIndex + 1, right);</span></span><br><span class="line">	<span class="comment">//又因为一直左右区间分，最后每个区间排 浪费数据量太小，没必要再调用快空间，增加消耗   故采用小区间优化(效果不明显，几毫秒的作用）</span></span><br><span class="line">		<span class="built_in">QuickSort</span>(a, left, KeyIndex - <span class="number">1</span>);</span><br><span class="line">		<span class="built_in">QuickSort</span>(a, KeyIndex + <span class="number">1</span>, right);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h1 id="快排非递归"><a href="#快排非递归" class="headerlink" title="快排非递归"></a>快排非递归</h1><p>通过模拟栈来划分左右区间，一定是右边界先入栈，然后左边界，对每个区间都是如此，这样取得时候就是先取左边界</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">/快排非递归</span><br><span class="line"><span class="comment">//快速排序非递归</span></span><br><span class="line"><span class="comment">//递归的缺陷？： ，递归深度太深，栈空间不够，容易造成栈溢出</span></span><br><span class="line"><span class="comment">//递归改非递归：1、(一般简单递归）直接改循环2、借助数据结构栈模拟递归过程（复杂递归)/////需要栈///队列也可以模拟</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">QuickSortNonR</span><span class="params">(<span class="type">int</span>* a, <span class="type">int</span> n)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	stack&lt;<span class="type">int</span>&gt; st;</span><br><span class="line">	<span class="comment">//栈先进后出，故先进右区间点，再进左区间点</span></span><br><span class="line">    st.<span class="built_in">push</span>(n<span class="number">-1</span>);</span><br><span class="line">	st.<span class="built_in">push</span>(<span class="number">0</span>);</span><br><span class="line">	<span class="keyword">while</span> (!st.<span class="built_in">empty</span>())</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="type">int</span> left = st.<span class="built_in">top</span>();</span><br><span class="line">		st.<span class="built_in">pop</span>();</span><br><span class="line"></span><br><span class="line">		<span class="type">int</span> right = st.<span class="built_in">top</span>();</span><br><span class="line">		st.<span class="built_in">pop</span>();</span><br><span class="line"></span><br><span class="line">		<span class="type">int</span> KeyIndex = <span class="built_in">PartSort1</span>(a, left, right);</span><br><span class="line">		<span class="comment">//[left,KeyIndex] KeyIndex[KeyIndex+1,right]</span></span><br><span class="line">		<span class="comment">//先判断左区间，再判断右区间，所以先入右区间，再入左区间</span></span><br><span class="line">		<span class="keyword">if</span> (KeyIndex + <span class="number">1</span> &lt; right)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="comment">//先入右区间点，再入左区间点</span></span><br><span class="line">			st.<span class="built_in">push</span>(right);</span><br><span class="line">			st.<span class="built_in">push</span>(KeyIndex+<span class="number">1</span>);</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">if</span> (left &lt; KeyIndex - <span class="number">1</span>)</span><br><span class="line">		&#123;</span><br><span class="line">			st.<span class="built_in">push</span>(KeyIndex - <span class="number">1</span>);</span><br><span class="line">			st.<span class="built_in">push</span>(left);</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h1 id="优化方案-采取左右指针"><a href="#优化方案-采取左右指针" class="headerlink" title="优化方案-采取左右指针"></a>优化方案-采取左右指针</h1><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">quick_sort</span><span class="params">(<span class="type">int</span> q[], <span class="type">int</span> l, <span class="type">int</span> r)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (l &gt;= r) <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">    <span class="type">int</span> i = l - <span class="number">1</span>, j = r + <span class="number">1</span>, x = q[l + r &gt;&gt; <span class="number">1</span>];</span><br><span class="line">    <span class="keyword">while</span> (i &lt; j)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">do</span> i ++ ; <span class="keyword">while</span> (q[i] &lt; x);</span><br><span class="line">        <span class="keyword">do</span> j -- ; <span class="keyword">while</span> (q[j] &gt; x);</span><br><span class="line">        <span class="keyword">if</span> (i &lt; j) <span class="built_in">swap</span>(q[i], q[j]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">quick_sort</span>(q, l, j), <span class="built_in">quick_sort</span>(q, j + <span class="number">1</span>, r);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</article>
+    
+    
+</div>
+<div id="post-next-prev" class="row">
+    <div class="col-lg-12">
+        <!-- title -->
+        <h5 class="trm-title-with-divider">
+            其他文章
+            <span data-number="02"></span>
+        </h5>
+    </div>
+    
+    
+        <div class="col-lg-6">
+    <div class="trm-blog-card trm-scroll-animation" data-scroll data-scroll-offset="40">
+        <a href="/2023/03/24/STL-vector/" class="trm-cover-frame trm-anima-link">
+            
+            
+                <img alt="cover" class="no-fancybox" src="/img/pic/4.jpeg">
+            
+        </a>
+        
+        <div class="trm-card-descr">
+            <div class="trm-label trm-category trm-mb-20">
+                <a href=" /categories/STL/">
+                    STL
+                </a>
+            </div>
+            <h5>
+                <a href="/2023/03/24/STL-vector/" class="trm-anima-link">
+                    STL-vector
+                </a>
+            </h5>
+            <div class="trm-divider trm-mb-20 trm-mt-20"></div>
+            <ul class="trm-card-data trm-label">
+                <li>23/03/24</li>
+                <li>11:24</li>
+                
+                
+            </ul>
+        </div>
+    </div>
+</div>
+    
+</div>
+
+    
+
+
+
+                    <div class="trm-divider footer-divider"></div>
+
+                    <!-- footer -->
+                    <footer class="trm-scroll-animation" data-scroll data-scroll-offset="50">
+
+    
+
+    
+
+    
+        <div class="trm-footer-item">
+            <span>
+                由 <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 驱动 v6.3.0
+            </span>
+            <span class="footer-separator" data-separator=" | "></span>
+            <span> 
+                主题 - 
+                <a rel="noopener" href='https://github.com/MaLuns/hexo-theme-async' target='_blank'>Async</a>
+                v2.0.4
+            </span>
+        </div>
+      
+
+     
+
+     
+</footer>
+ 
+                    <!-- footer end -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+            <!-- body end -->
+
+            <div class="trm-fixed-container" data-scroll data-scroll-sticky data-scroll-target=".locomotive-scroll__sticky-target" data-scroll-offset="-10">
+    
+        <div class="trm-fixed-btn" data-title="阅读模式" onclick="asyncFun.switchReadMode()">
+            <i class="iconfont fas fa-book-reader"></i>
+        </div>
+    
+    
+    <div id="trm-back-top" class="trm-fixed-btn" data-title="回到顶部">
+        <i class="iconfont fas fa-arrow-up"></i>
+    </div>
+</div>
+          </div>
+        </div>
+      </div>
+      <!-- scroll container end -->
+
+  </div>
+  <!-- app wrapper end -->
+
+  
+<div class="trm-search-popup">
+    <div class="trm-search-header">
+        <span class="trm-search-popup-btn-close">
+            <i class="iconfont fas fa-times"></i>
+        </span>
+    </div>
+    <div class="form trm-search-form">
+        <input class="trm-search-input" type="text" placeholder="搜索...">
+    </div>
+    <div class="trm-search-result-container">
+
+    </div>
+</div>
+
+  <!-- Plugin -->
+
+
+
+
+    
+    
+<script src="https://unpkg.com/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.js"></script>
+
+    
+<script src="https://unpkg.com/@fancyapps/ui@4.0/dist/fancybox.umd.js"></script>
+
+    
+
+    
+
+    
+        
+<script src="https://unpkg.com/hexo-generator-searchdb@1.4.0/dist/search.js"></script>
+
+        <script src="/js/plugins/local_search.js?v=2.0.4"></script>
+    
+
+    <!-- 数学公式 -->
+    
+
+    <!-- 评论插件 -->
+    
+        
+
+        
+    
+
+
+
+<!-- CDN -->
+
+
+    
+
+    
+
+    
+
+
+
+
+    <!-- Service Worker -->
+    
+    <!-- baidu push -->
+    
+
+
+<script id="async-script" src="/js/main.js?v=2.0.4"></script>
+
+</body>
+
+</html>

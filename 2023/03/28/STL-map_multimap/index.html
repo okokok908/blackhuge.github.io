@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="x5-fullscreen" content="true">
+<meta name="full-screen" content="yes">
+<meta name="theme-color" content="#317EFB" />
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=0" name="viewport">
+<meta name="description" content="Map&#x2F;MultiMapmap&#x2F;multimap也是关联式容器，容器自身有规则，通过键值排序，map容器中的元素是对组，对组的第一个元素是键值，不能改变，第二个元素是实值，可以改变 数据结构平衡二叉树 迭代器双向迭代器 区别map容器和multimap容器的区别是multimap允许有相同的元素 常用API构造set&lt;T&gt; st;&#x2F;&#x2F;set默认构">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Map&#x2F;MultiMap">
+<meta property="og:url" content="http://example.com/2023/03/28/STL-map_multimap/index.html">
+<meta property="og:site_name" content="Eleven">
+<meta property="og:description" content="Map&#x2F;MultiMapmap&#x2F;multimap也是关联式容器，容器自身有规则，通过键值排序，map容器中的元素是对组，对组的第一个元素是键值，不能改变，第二个元素是实值，可以改变 数据结构平衡二叉树 迭代器双向迭代器 区别map容器和multimap容器的区别是multimap允许有相同的元素 常用API构造set&lt;T&gt; st;&#x2F;&#x2F;set默认构">
+<meta property="og:locale">
+<meta property="article:published_time" content="2023-03-28T08:06:32.385Z">
+<meta property="article:modified_time" content="2023-03-28T08:13:43.747Z">
+<meta property="article:author" content="Tc">
+<meta property="article:tag" content="C++">
+<meta property="article:tag" content="STL">
+<meta name="twitter:card" content="summary">
+
+
+<title >Map/MultiMap</title>
+
+<!-- Favicon -->
+
+    <link href='/img/favicon.svg?v=2.0.4' rel='icon' type='image/png' sizes='16x16' ></link>
+
+
+    <link href='/img/favicon.svg?v=2.0.4' rel='icon' type='image/png' sizes='32x32' ></link>
+
+
+
+
+<!-- Plugin -->
+
+
+
+
+    
+<link rel="stylesheet" href="/css/plugins/bootstrap.row.css">
+
+    
+<link rel="stylesheet" href="https://unpkg.com/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.css">
+
+    
+<link rel="stylesheet" href="https://unpkg.com/@fancyapps/ui@4.0/dist/fancybox.css">
+
+    
+    
+
+
+
+
+<!-- Icon -->
+
+    
+<link rel="stylesheet" href="/css/plugins/font-awesome.min.css">
+
+
+
+
+<!-- Variable -->
+<script>window.ASYNC_CONFIG = {"hostname":"example.com","author":"Tc","root":"/","typed_text":null,"theme_version":"2.0.4","theme":{"switch":true,"default":"style-light"},"favicon":{"logo":"/img/favicon.svg","icon16":"/img/favicon.svg","icon32":"/img/favicon.svg","appleTouchIcon":null,"webmanifest":null,"visibilitychange":false,"hidden":"/failure.ico","showText":"(/≧▽≦/)咦！又好了！","hideText":"(●—●)喔哟，崩溃啦！"},"i18n":{"placeholder":"搜索...","empty":"找不到您查询的内容: ${query}","hits":"找到 ${hits} 条结果","hits_time":"找到 ${hits} 条结果（用时 ${time} 毫秒）","author":"本文作者：","copyright_link":"本文链接：","copyright_license_title":"版权声明：","copyright_license_content":"本博客所有文章除特别声明外，均默认采用 undefined 许可协议。","copy_success":"复制成功","copy_failure":"复制失败","open_read_mode":"进入阅读模式","exit_read_mode":"退出阅读模式","notice_outdate_message":"距离上次更新已经 undefined 天了, 文章内容可能已经过时。","just":"刚刚","min":"分钟前","hour":"小时前","day":"天前","month":"个月前"},"swup":false,"plugin":{"flickr_justified_gallery":"https://unpkg.com/flickr-justified-gallery@latest/dist/fjGallery.min.js"},"icons":{"sun":"far fa-sun","moon":"far fa-moon","play":"fas fa-play","email":"far fa-envelope","next":"fas fa-arrow-right","calendar":"far fa-calendar-alt","clock":"far fa-clock","user":"far fa-user","back_top":"fas fa-arrow-up","close":"fas fa-times","search":"fas fa-search","reward":"fas fa-hand-holding-usd","user_tag":"fas fa-user-alt","toc_tag":"fas fa-th-list","read":"fas fa-book-reader","arrows":"fas fa-arrows-alt-h","double_arrows":"fas fa-angle-double-down","copy":"fas fa-copy"},"icontype":"font","highlight":{"plugin":"highlighjs","theme":true,"copy":true,"lang":true,"title":"default","height_limit":false},"search":{"enable":true,"type":"local","href":"https://www.baidu.com/s?wd=site:","domain":null,"path":"search.xml"}};</script>
+<script id="async-page-config">window.PAGE_CONFIG = {"isPost":true,"isHome":false,"postUpdate":"2023-03-28 16:13:43"};</script>
+
+<!-- Theme mode css -->
+<link data-swup-theme rel="stylesheet" href="/css/index.css?v=2.0.4" id="trm-switch-style">
+<script>
+    let defaultMode = ASYNC_CONFIG.theme.default !=='auto' ?  ASYNC_CONFIG.theme.default : (window.matchMedia("(prefers-color-scheme: light)").matches ? 'style-light' : 'style-dark')
+    let catchMode = localStorage.getItem('theme-mode') || defaultMode;
+    let type = catchMode === 'style-dark' ? 'add' : 'remove';
+    document.documentElement.classList[type]('dark')
+</script>
+
+<!-- CDN -->
+
+
+    
+    
+
+
+
+<!-- Site Analytics -->
+ 
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+
+  <!-- app wrapper -->
+  <div class="trm-app-frame">
+
+    <!-- page preloader -->
+    <div class="trm-preloader">
+    <div class="trm-holder">
+        <div class="preloader">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+</div>
+    <!-- page preloader end -->
+
+    <!-- change mode preloader -->
+    <div class="trm-mode-swich-animation-frame">
+    <div class="trm-mode-swich-animation">
+        <i class="i-sun"><i class="iconfont far fa-sun"></i></i>
+        <div class="trm-horizon"></div>
+        <i class="i-moon"><i class="iconfont far fa-moon"></i></i>
+    </div>
+</div>
+    <!-- change mode preloader end -->
+
+      <!-- scroll container -->
+      <div id="trm-dynamic-content" class="trm-swup-animation">
+        <div id="trm-scroll-container" class="trm-scroll-container" data-scroll-container style="opacity: 0">
+          <div data-scroll-section id="content" class="trm-scroll-section">
+
+            <div class="locomotive-scroll__sticky-target" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; pointer-events: none;"></div>
+
+            <!-- top bar -->
+            <header class="trm-top-bar" data-scroll data-scroll-sticky data-scroll-target=".locomotive-scroll__sticky-target" data-scroll-offset="-10">
+	<div class="container">
+		<div class="trm-left-side">
+			<!-- logo -->
+<a href="/" class="trm-logo-frame trm-anima-link">
+    
+        <img alt="logo" src="/img/favicon.svg">
+    
+    
+        <div class="trm-logo-text">
+            T<span>C</span>
+        </div>
+    
+</a>
+<!-- logo end -->
+		</div>
+		<div class="trm-right-side">
+			<!-- menu -->
+<div class="trm-menu">
+    <nav>
+        <ul>
+            
+            <li class="menu-item-has-children ">
+                <a  href="/" target="">
+                    首页
+                </a>
+                
+            </li>
+            
+            <li class="menu-item-has-children ">
+                <a  href="/archives/" target="">
+                    归档
+                </a>
+                
+            </li>
+            
+            <li class="menu-item-has-children ">
+                <a  href="/categories/" target="">
+                    分类
+                </a>
+                
+            </li>
+            
+            <li class="menu-item-has-children ">
+                <a  href="/tags/" target="">
+                    标签
+                </a>
+                
+            </li>
+            
+        </ul>
+    </nav>
+</div>
+<!-- menu end -->
+			
+    <!-- mode switcher place -->
+    <div class="trm-mode-switcher-place">
+        <div class="trm-mode-switcher">
+            <i class="iconfont far fa-sun"></i>
+            <input class="tgl tgl-light" id="trm-swich" type="checkbox">
+            <label class="trm-swich" for="trm-swich"></label>
+            <i class="iconfont far fa-moon"></i>
+        </div>
+    </div>
+    <!-- mode switcher place end -->
+
+			
+    
+    <div id="trm-search-btn" class="trm-search-btn">
+        <i class="iconfont fas fa-search"></i>
+    </div>
+     
+
+		</div>
+		<div class="trm-menu-btn">
+			<span></span>
+		</div>
+	</div>
+</header>
+            <!-- top bar end -->
+
+            <!-- body -->
+            
+<div class="trm-content-start">
+    <!-- banner -->
+    <div class="trm-banner" data-scroll data-scroll-direction="vertical">
+    
+    <!-- banner cover -->
+    <img style="object-position:top;object-fit:cover;" alt="banner" class="trm-banner-cover" data-scroll data-scroll-direction="vertical" data-scroll-speed="-3" src="/img/pic/5.jpeg">
+    <!-- banner cover end -->
+    
+
+    <!-- banner content -->
+    <div class="trm-banner-content trm-overlay">
+        <div class="container" data-scroll data-scroll-direction="vertical" data-scroll-speed="0">
+            <div class="row">
+                
+                <div class="col-lg-4"></div>
+                
+                <div class="col-lg-8">
+
+                    <!-- banner title -->
+                    <div class="trm-banner-text ">
+                        <div class="trm-label trm-mb-20">
+                            NEWS LETTER
+                        </div>
+                        <h1 class="trm-mb-30 trm-hsmb-font">
+                            Map/MultiMap
+                        </h1>
+
+                        
+                            <ul class="trm-breadcrumbs trm-label">
+                                <li>
+                                    <a href="/" class="trm-anima-link">Home</a>
+                                </li>
+                                <li>
+                                    <span>
+                                        2023
+                                    </span
+                                ></li>
+                            </ul>
+                        
+                    </div>
+                    <!-- banner title end -->
+
+                    <!-- scroll hint -->
+                    <a href="#about-triger" data-scroll-to="#about-triger" data-scroll-offset="-130" class="trm-scroll-hint-frame">
+                        <div class="trm-scroll-hint"></div>
+                        <span class="trm-label">Scroll down</span>
+                    </a>
+                    <!-- scroll hint end -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- banner content end -->
+</div>
+    <!-- banner end -->
+    <div class="container">
+        <div class="row">
+            
+                <div id="page-sidebar" class="col-lg-4 hidden-sm">
+                    <!-- main card -->
+                    
+
+<div class="trm-main-card-frame trm-sidebar">
+    <div class="trm-main-card" data-scroll data-scroll-repeat data-scroll-sticky data-scroll-target=".locomotive-scroll__sticky-target" data-scroll-offset="60"> 
+    
+        <div class="trm-user-tabs" id="sidebar-tabs">
+           <div class="trm-tabs-nav trm-mb-40" id="trm-tabs-nav">
+                <div data-to="tabs-user" class="trm-tabs-nav-item">
+                    <i class="iconfont fas fa-user-alt"></i>
+                </div>
+                <div data-to="tabs-toc" class="trm-tabs-nav-item active">
+                    <i class="iconfont fas fa-th-list"></i>
+                </div>
+           </div>
+            <div name="tabs-user" class="trm-tabs-item">
+                <!-- card header -->
+<div class="trm-mc-header">
+    <div class="trm-avatar-frame trm-mb-20">
+        <img alt="Avatar" class="trm-avatar" src="/img/avatar.jpg">
+    </div>
+    <h5 class="trm-name trm-mb-15">
+        TC小站
+    </h5>
+    
+</div>
+<!-- card header end -->
+                <!-- sidebar social -->
+
+<div class="trm-divider trm-mb-40 trm-mt-40"></div>
+<div class="trm-social">
+    
+        <a href="https://github.com" title="Github" rel="nofollow" target="_blank">
+            <i class="iconfont fab fa-github"></i>
+        </a>
+    
+        <a href="/2818415316" title="QQ" rel="nofollow" target="_blank">
+            <i class="iconfont fab fa-qq"></i>
+        </a>
+    
+</div>
+
+<!-- sidebar social end -->
+                <!-- info -->
+<div class="trm-divider trm-mb-40 trm-mt-40"></div>
+<ul class="trm-table trm-mb-20">
+    
+        <li>
+            <div class="trm-label">
+                地址:
+            </div>
+            <div class="trm-label trm-label-light">
+                Mars
+            </div>
+        </li>
+    
+        <li>
+            <div class="trm-label">
+                邮箱:
+            </div>
+            <div class="trm-label trm-label-light">
+                2818415316@qq.com
+            </div>
+        </li>
+    
+</ul>
+<!-- info end -->
+
+                
+    <div class="trm-divider trm-mb-40 trm-mt-40"></div>
+    <!-- action button -->
+    <div class="text-center">
+        <a href="mailto:2818415316@QQ.COM" class="trm-btn">
+            联系我
+            <i class="iconfont far fa-envelope"></i>
+        </a>
+    </div>
+    <!-- action button end -->
+
+            </div>
+            <div name="tabs-toc" class="trm-tabs-item active">
+                <div class="post-toc">
+    <ol class="toc"><li class="toc-item toc-level-1"><a rel="nofollow" class="toc-link" href="#Map-x2F-MultiMap"  data-scroll-to="#Map-x2F-MultiMap"><span class="toc-number">1.</span> <span class="toc-text">Map&#x2F;MultiMap</span></a></li><li class="toc-item toc-level-1"><a rel="nofollow" class="toc-link" href="#数据结构"  data-scroll-to="#数据结构"><span class="toc-number">2.</span> <span class="toc-text">数据结构</span></a></li><li class="toc-item toc-level-1"><a rel="nofollow" class="toc-link" href="#迭代器"  data-scroll-to="#迭代器"><span class="toc-number">3.</span> <span class="toc-text">迭代器</span></a></li><li class="toc-item toc-level-1"><a rel="nofollow" class="toc-link" href="#区别"  data-scroll-to="#区别"><span class="toc-number">4.</span> <span class="toc-text">区别</span></a></li><li class="toc-item toc-level-1"><a rel="nofollow" class="toc-link" href="#常用API"  data-scroll-to="#常用API"><span class="toc-number">5.</span> <span class="toc-text">常用API</span></a></li><li class="toc-item toc-level-1"><a rel="nofollow" class="toc-link" href="#构造"  data-scroll-to="#构造"><span class="toc-number">6.</span> <span class="toc-text">构造</span></a></li><li class="toc-item toc-level-1"><a rel="nofollow" class="toc-link" href="#赋值"  data-scroll-to="#赋值"><span class="toc-number">7.</span> <span class="toc-text">赋值</span></a></li><li class="toc-item toc-level-1"><a rel="nofollow" class="toc-link" href="#大小"  data-scroll-to="#大小"><span class="toc-number">8.</span> <span class="toc-text">大小</span></a></li><li class="toc-item toc-level-1"><a rel="nofollow" class="toc-link" href="#查找"  data-scroll-to="#查找"><span class="toc-number">9.</span> <span class="toc-text">查找</span></a></li><li class="toc-item toc-level-1"><a rel="nofollow" class="toc-link" href="#插入"  data-scroll-to="#插入"><span class="toc-number">10.</span> <span class="toc-text">插入</span></a></li><li class="toc-item toc-level-1"><a rel="nofollow" class="toc-link" href="#删除"  data-scroll-to="#删除"><span class="toc-number">11.</span> <span class="toc-text">删除</span></a></li><li class="toc-item toc-level-1"><a rel="nofollow" class="toc-link" href="#改变规则"  data-scroll-to="#改变规则"><span class="toc-number">12.</span> <span class="toc-text">改变规则</span></a></li></ol>
+</div>
+            </div>
+        </div>
+    
+    </div>
+</div>
+                    <!-- main card end -->
+                </div>
+            
+            <div id="page-content" class="col-lg-8">
+                <div class="trm-content" id="trm-content">
+                    <div data-scroll data-scroll-repeat data-scroll-offset="500" id="about-triger"></div>
+
+                    <div id="post-info" class="row hidden-sm">
+    <div class="col-sm-4">
+        <div class="trm-card trm-label trm-label-light text-center">
+            <i class="iconfont far fa-calendar-alt trm-icon"></i><br>
+            03/28
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="trm-card trm-label trm-label-light text-center">
+            <i class="iconfont far fa-clock trm-icon"></i><br>
+            16:06
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div id="post-author" class="trm-card trm-label trm-label-light text-center">
+            <i class="iconfont far fa-user trm-icon"></i><br>
+            Tc
+        </div>
+    </div>
+</div>
+<div class="trm-card ">
+    <article id="article-container" class="trm-publication">
+    <h1 id="Map-x2F-MultiMap"><a href="#Map-x2F-MultiMap" class="headerlink" title="Map&#x2F;MultiMap"></a>Map&#x2F;MultiMap</h1><p>map&#x2F;multimap也是关联式容器，容器自身有规则，通过键值排序，map容器中的元素是对组，对组的第一个元素是键值，不能改变，第二个元素是实值，可以改变</p>
+<h1 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h1><p>平衡二叉树</p>
+<h1 id="迭代器"><a href="#迭代器" class="headerlink" title="迭代器"></a>迭代器</h1><p>双向迭代器</p>
+<h1 id="区别"><a href="#区别" class="headerlink" title="区别"></a>区别</h1><p>map容器和multimap容器的区别是multimap允许有相同的元素</p>
+<h1 id="常用API"><a href="#常用API" class="headerlink" title="常用API"></a>常用API</h1><h1 id="构造"><a href="#构造" class="headerlink" title="构造"></a>构造</h1><p>set<code>&lt;T&gt;</code> st;&#x2F;&#x2F;set默认构造函数：</p>
+<p>mulitset<code>&lt;T&gt;</code> mst; &#x2F;&#x2F;multiset默认构造函数:</p>
+<p>set(const set &amp;st);&#x2F;&#x2F;拷贝构造函数</p>
+<h1 id="赋值"><a href="#赋值" class="headerlink" title="赋值"></a>赋值</h1><p>set&amp;operator&#x3D;(const set &amp;st);&#x2F;&#x2F;重载等号操作符</p>
+<p>swap(st);&#x2F;&#x2F;交换两个集合容器</p>
+<h1 id="大小"><a href="#大小" class="headerlink" title="大小"></a>大小</h1><p>size();&#x2F;&#x2F;返回容器中元素的数目</p>
+<p>empty();&#x2F;&#x2F;判断容器是否为空</p>
+<h1 id="查找"><a href="#查找" class="headerlink" title="查找"></a>查找</h1><p>find(key);&#x2F;&#x2F;查找键key是否存在,若存在，返回该键的元素的迭代器；&#x2F;若不存在，返回map.end();</p>
+<p>count(keyElem);&#x2F;&#x2F;返回容器中key为keyElem的对组个数。对map来说，要么是0，要么是1。对multimap来说，值可能大于1。</p>
+<p>lower_bound(keyElem);&#x2F;&#x2F;返回第一个key&gt;&#x3D;keyElem元素的迭代器。</p>
+<p>upper_bound(keyElem);&#x2F;&#x2F;返回第一个key&gt;keyElem元素的迭代器。</p>
+<p>equal_range(keyElem);&#x2F;&#x2F;返回容器中key与keyElem相等的上下限的两个迭代器。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">test04</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    map&lt;<span class="type">int</span>, string&gt; mymap;</span><br><span class="line">	mymap[<span class="number">1</span>] = <span class="string">&quot;aaa&quot;</span>;</span><br><span class="line">	mymap[<span class="number">2</span>] = <span class="string">&quot;bbb&quot;</span>;</span><br><span class="line">	mymap[<span class="number">3</span>] = <span class="string">&quot;ccc&quot;</span>;</span><br><span class="line">	mymap[<span class="number">4</span>] = <span class="string">&quot;ddd&quot;</span>;</span><br><span class="line">	mymap[<span class="number">5</span>] = <span class="string">&quot;eee&quot;</span>;</span><br><span class="line">    map&lt;<span class="type">int</span>, string&gt;::iterator it = mymap.<span class="built_in">find</span>(<span class="number">30</span>);</span><br><span class="line">    	<span class="keyword">if</span> (it == mymap.<span class="built_in">end</span>())</span><br><span class="line">	&#123;</span><br><span class="line">		cout &lt;&lt; <span class="string">&quot;查找失败&quot;</span> &lt;&lt; endl;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">	&#123;</span><br><span class="line">		cout &lt;&lt; <span class="string">&quot;key:&quot;</span> &lt;&lt; it-&gt;first &lt;&lt; <span class="string">&quot; value:&quot;</span> &lt;&lt; it-&gt;second &lt;&lt; endl;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//查找大于等于3的最小的数</span></span><br><span class="line">	it = mymap.<span class="built_in">lower_bound</span>(<span class="number">3</span>);</span><br><span class="line">	<span class="keyword">if</span> (it == mymap.<span class="built_in">end</span>())</span><br><span class="line">	&#123;</span><br><span class="line">		cout &lt;&lt; <span class="string">&quot;查找失败&quot;</span> &lt;&lt; endl;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">	&#123;</span><br><span class="line">		cout &lt;&lt; <span class="string">&quot;key:&quot;</span> &lt;&lt; it-&gt;first &lt;&lt; <span class="string">&quot; value:&quot;</span> &lt;&lt; it-&gt;second &lt;&lt; endl;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//查找大于3的最小的数</span></span><br><span class="line">	it = mymap.<span class="built_in">upper_bound</span>(<span class="number">3</span>);</span><br><span class="line">	<span class="keyword">if</span> (it == mymap.<span class="built_in">end</span>())</span><br><span class="line">	&#123;</span><br><span class="line">		cout &lt;&lt; <span class="string">&quot;查找失败&quot;</span> &lt;&lt; endl;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">	&#123;</span><br><span class="line">		cout &lt;&lt; <span class="string">&quot;key:&quot;</span> &lt;&lt; it-&gt;first &lt;&lt; <span class="string">&quot; value:&quot;</span> &lt;&lt; it-&gt;second &lt;&lt; endl;</span><br><span class="line">	&#125;</span><br><span class="line">	cout &lt;&lt; <span class="string">&quot;--------------&quot;</span> &lt;&lt; endl;</span><br><span class="line">    <span class="comment">//返回大于等于2的两个最小的数，如果有2那么就返回2和大于2的最小数</span></span><br><span class="line">	pair&lt;map&lt;<span class="type">int</span>,string&gt;::iterator,map&lt;<span class="type">int</span>,string&gt;::iterator&gt; ret=mymap.<span class="built_in">equal_range</span>(<span class="number">3</span>);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (ret.first != mymap.<span class="built_in">end</span>())</span><br><span class="line">	&#123;</span><br><span class="line">		cout &lt;&lt; <span class="string">&quot;key:&quot;</span> &lt;&lt; ret.first-&gt;first &lt;&lt; <span class="string">&quot; Value:&quot;</span> &lt;&lt; ret.first-&gt;second &lt;&lt; endl;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (ret.second != mymap.<span class="built_in">end</span>())</span><br><span class="line">	&#123;</span><br><span class="line">		cout &lt;&lt; <span class="string">&quot;key:&quot;</span> &lt;&lt; ret.second-&gt;first &lt;&lt; <span class="string">&quot; Value:&quot;</span> &lt;&lt; ret.second-&gt;second &lt;&lt; endl;</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h1 id="插入"><a href="#插入" class="headerlink" title="插入"></a>插入</h1><p>插入数据元素操作</p>
+<p>map.insert(…); &#x2F;&#x2F;往容器插入元素，返回pair&lt;iterator,bool&gt;</p>
+<p>map&lt;int, string&gt; mapStu;</p>
+<p>&#x2F;&#x2F; 第一种 通过pair的方式插入对象</p>
+<p>mapStu.insert(pair&lt;int, string&gt;(3, “小张”));</p>
+<p>&#x2F;&#x2F; 第二种 通过pair的方式插入对象</p>
+<p>mapStu.inset(make_pair(-1, “校长”));</p>
+<p>&#x2F;&#x2F; 第三种 通过value_type的方式插入对象</p>
+<p>mapStu.insert(map&lt;int, string&gt;::value_type(1, “小李”));</p>
+<p>&#x2F;&#x2F; 第四种 通过数组的方式插入值</p>
+<p>mapStu[3] &#x3D; “小刘”;</p>
+<p>mapStu[5] &#x3D; “小王”;</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">test01</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    map&lt;<span class="type">int</span>,string&gt; m;</span><br><span class="line">    m.<span class="built_in">insert</span>(<span class="built_in">pair</span>&lt;<span class="type">int</span>,string&gt;(<span class="number">1</span>,<span class="string">&quot;haha&quot;</span>));</span><br><span class="line"></span><br><span class="line">    m.<span class="built_in">insert</span>(<span class="built_in">make_pair</span>(<span class="number">2</span>,<span class="string">&quot;opop&quot;</span>));</span><br><span class="line"></span><br><span class="line">    m.<span class="built_in">insert</span>(map&lt;<span class="type">int</span>,string&gt;::<span class="built_in">value_type</span>(<span class="number">3</span>,<span class="string">&quot;uiui&quot;</span>));</span><br><span class="line"></span><br><span class="line">    m[<span class="number">5</span>]=<span class="string">&quot;shushu&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">print</span>(m);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//注意：[]方式插入数据,如果没有实值，那么键值也是存在的</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">test03</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    map&lt;<span class="type">int</span>, string&gt; mymap;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//1.</span></span><br><span class="line">	mymap.<span class="built_in">insert</span>(<span class="built_in">pair</span>&lt;<span class="type">int</span>, string&gt;(<span class="number">3</span>, <span class="string">&quot;aaa&quot;</span>));</span><br><span class="line">	<span class="comment">//2.</span></span><br><span class="line">	mymap.<span class="built_in">insert</span>(<span class="built_in">make_pair</span>(<span class="number">6</span>, <span class="string">&quot;bbb&quot;</span>));</span><br><span class="line">	<span class="comment">//3.</span></span><br><span class="line">	mymap.<span class="built_in">insert</span>(map&lt;<span class="type">int</span>, string&gt;::<span class="built_in">value_type</span>(<span class="number">2</span>, <span class="string">&quot;ccc&quot;</span>));</span><br><span class="line">	<span class="comment">//4.</span></span><br><span class="line">	mymap[<span class="number">4</span>] = <span class="string">&quot;ddd&quot;</span>;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">print</span>(mymap);</span><br><span class="line"></span><br><span class="line">	cout &lt;&lt; <span class="string">&quot;size:&quot;</span> &lt;&lt; mymap.<span class="built_in">size</span>() &lt;&lt; endl;</span><br><span class="line"></span><br><span class="line">	cout &lt;&lt; mymap[<span class="number">100</span>] &lt;&lt; endl;<span class="comment">//插入键值，返回的是实值</span></span><br><span class="line">	cout &lt;&lt; <span class="string">&quot;size:&quot;</span> &lt;&lt; mymap.<span class="built_in">size</span>() &lt;&lt; endl;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h1 id="删除"><a href="#删除" class="headerlink" title="删除"></a>删除</h1><p>clear();&#x2F;&#x2F;清除所有元素</p>
+<p>erase(pos);&#x2F;&#x2F;删除pos迭代器所指的元素，返回下一个元素的迭代器。</p>
+<p>erase(beg, end);&#x2F;&#x2F;删除区间[beg,end)的所有元素 ，返回下一个元素的迭代器。</p>
+<p>erase(elem);&#x2F;&#x2F;删除容器中值为elem的元素。</p>
+<h1 id="改变规则"><a href="#改变规则" class="headerlink" title="改变规则"></a>改变规则</h1><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">myfunc</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="type">bool</span> <span class="title">operator</span><span class="params">()</span><span class="params">(<span class="type">int</span> k1,<span class="type">int</span> k2)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> k1&gt;k2;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">test02</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    map&lt;<span class="type">int</span>,string,myfunc&gt; m;</span><br><span class="line">    m.<span class="built_in">insert</span>(<span class="built_in">pair</span>&lt;<span class="type">int</span>,string&gt;(<span class="number">1</span>,<span class="string">&quot;haha&quot;</span>));</span><br><span class="line"></span><br><span class="line">    m.<span class="built_in">insert</span>(<span class="built_in">make_pair</span>(<span class="number">2</span>,<span class="string">&quot;opop&quot;</span>));</span><br><span class="line"></span><br><span class="line">    m.<span class="built_in">insert</span>(map&lt;<span class="type">int</span>,string&gt;::<span class="built_in">value_type</span>(<span class="number">3</span>,<span class="string">&quot;uiui&quot;</span>));</span><br><span class="line"></span><br><span class="line">    m[<span class="number">5</span>]=<span class="string">&quot;shushu&quot;</span>;</span><br><span class="line">    <span class="built_in">print</span>(m);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</article>
+    
+    
+</div>
+<div id="post-next-prev" class="row">
+    <div class="col-lg-12">
+        <!-- title -->
+        <h5 class="trm-title-with-divider">
+            其他文章
+            <span data-number="02"></span>
+        </h5>
+    </div>
+    
+        <div class="col-lg-6">
+    <div class="trm-blog-card trm-scroll-animation" data-scroll data-scroll-offset="40">
+        <a href="/2023/03/28/STL-set_multiset/" class="trm-cover-frame trm-anima-link">
+            
+            
+                <img alt="cover" class="no-fancybox" src="/img/pic/4.jpeg">
+            
+        </a>
+        
+        <div class="trm-card-descr">
+            <div class="trm-label trm-category trm-mb-20">
+                <a href=" /categories/STL/">
+                    STL
+                </a>
+            </div>
+            <h5>
+                <a href="/2023/03/28/STL-set_multiset/" class="trm-anima-link">
+                    Set/MultiSet
+                </a>
+            </h5>
+            <div class="trm-divider trm-mb-20 trm-mt-20"></div>
+            <ul class="trm-card-data trm-label">
+                <li>23/03/28</li>
+                <li>16:12</li>
+                
+                
+            </ul>
+        </div>
+    </div>
+</div>
+    
+    
+        <div class="col-lg-6">
+    <div class="trm-blog-card trm-scroll-animation" data-scroll data-scroll-offset="40">
+        <a href="/2023/03/28/STL-pair/" class="trm-cover-frame trm-anima-link">
+            
+            
+                <img alt="cover" class="no-fancybox" src="/img/pic/4.jpeg">
+            
+        </a>
+        
+        <div class="trm-card-descr">
+            <div class="trm-label trm-category trm-mb-20">
+                <a href=" /categories/STL/">
+                    STL
+                </a>
+            </div>
+            <h5>
+                <a href="/2023/03/28/STL-pair/" class="trm-anima-link">
+                    Pair对组
+                </a>
+            </h5>
+            <div class="trm-divider trm-mb-20 trm-mt-20"></div>
+            <ul class="trm-card-data trm-label">
+                <li>23/03/28</li>
+                <li>16:06</li>
+                
+                
+            </ul>
+        </div>
+    </div>
+</div>
+    
+</div>
+
+    
+
+
+
+                    <div class="trm-divider footer-divider"></div>
+
+                    <!-- footer -->
+                    <footer class="trm-scroll-animation" data-scroll data-scroll-offset="50">
+
+    
+
+    
+
+    
+        <div class="trm-footer-item">
+            <span>
+                由 <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a> 驱动 v6.3.0
+            </span>
+            <span class="footer-separator" data-separator=" | "></span>
+            <span> 
+                主题 - 
+                <a rel="noopener" href='https://github.com/MaLuns/hexo-theme-async' target='_blank'>Async</a>
+                v2.0.4
+            </span>
+        </div>
+      
+
+     
+
+     
+</footer>
+ 
+                    <!-- footer end -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+            <!-- body end -->
+
+            <div class="trm-fixed-container" data-scroll data-scroll-sticky data-scroll-target=".locomotive-scroll__sticky-target" data-scroll-offset="-10">
+    
+        <div class="trm-fixed-btn" data-title="阅读模式" onclick="asyncFun.switchReadMode()">
+            <i class="iconfont fas fa-book-reader"></i>
+        </div>
+    
+    
+    <div id="trm-back-top" class="trm-fixed-btn" data-title="回到顶部">
+        <i class="iconfont fas fa-arrow-up"></i>
+    </div>
+</div>
+          </div>
+        </div>
+      </div>
+      <!-- scroll container end -->
+
+  </div>
+  <!-- app wrapper end -->
+
+  
+<div class="trm-search-popup">
+    <div class="trm-search-header">
+        <span class="trm-search-popup-btn-close">
+            <i class="iconfont fas fa-times"></i>
+        </span>
+    </div>
+    <div class="form trm-search-form">
+        <input class="trm-search-input" type="text" placeholder="搜索...">
+    </div>
+    <div class="trm-search-result-container">
+
+    </div>
+</div>
+
+  <!-- Plugin -->
+
+
+
+
+    
+    
+<script src="https://unpkg.com/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.js"></script>
+
+    
+<script src="https://unpkg.com/@fancyapps/ui@4.0/dist/fancybox.umd.js"></script>
+
+    
+
+    
+
+    
+        
+<script src="https://unpkg.com/hexo-generator-searchdb@1.4.0/dist/search.js"></script>
+
+        <script src="/js/plugins/local_search.js?v=2.0.4"></script>
+    
+
+    <!-- 数学公式 -->
+    
+
+    <!-- 评论插件 -->
+    
+        
+
+        
+    
+
+
+
+<!-- CDN -->
+
+
+    
+
+    
+
+    
+
+
+
+
+    <!-- Service Worker -->
+    
+    <!-- baidu push -->
+    
+
+
+<script id="async-script" src="/js/main.js?v=2.0.4"></script>
+
+</body>
+
+</html>

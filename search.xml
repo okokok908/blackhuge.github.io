@@ -1158,8 +1158,7 @@
 
 <p>我们把上述多表查询中出现的问题称为：笛卡尔积的错误。</p>
 <h2 id="笛卡尔积（或交叉连接）的理解"><a href="#笛卡尔积（或交叉连接）的理解" class="headerlink" title="笛卡尔积（或交叉连接）的理解"></a>笛卡尔积（或交叉连接）的理解</h2><p>笛卡尔乘积是一个数学运算。假设我有两个集合 X 和 Y，那么 X 和 Y 的笛卡尔积就是 X 和 Y 的所有可能组合，也就是第一个对象来自于 X，第二个对象来自于 Y 的所有可能。组合的个数即为两个集合中元素个数的乘积数。</p>
-<img src="https://images0.cnblogs.com/i/595518/201403/302046364841977.jpg" alt="img" style="zoom:80%;"  loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'/>
-
+<p><img src="/img/images/302046364841977.jpg" alt="302046364841977" loading="lazy" onerror='this.onerror=null;this.src="/img/404.jpg"'></p>
 <p>SQL92中，笛卡尔积也称为<code>交叉连接</code>，英文是 <code>CROSS JOIN</code>。在 SQL99 中也是使用 CROSS JOIN表示交叉连接。它的作用就是可以把任意表进行连接，即使这两张表不相关。在MySQL中如下情况会出现笛卡尔积：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#查询员工姓名和所在部门名称</span><br><span class="line">SELECT last_name,department_name FROM employees,departments;</span><br><span class="line">SELECT last_name,department_name FROM employees CROSS JOIN departments;</span><br><span class="line">SELECT last_name,department_name FROM employees INNER JOIN departments;</span><br><span class="line">SELECT last_name,department_name FROM employees JOIN departments;</span><br></pre></td></tr></table></figure>
 
